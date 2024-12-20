@@ -29,7 +29,7 @@ export const environment = {
         code_challenge_method: 'S256',
         token_url: "http://18.219.206.33:9000/oauth2/token",
         grant_type: "authorization_code",
-        resource_url: 'http://3.139.76.61:8080/admin/resource/',//esta es la ruta del servicio del server resource
+        resource_url: 'http://3.139.76.61:8081/admin/resource/',//esta es la ruta del servicio del server resource
         logout_url: 'http://18.219.206.33:9000/logout',
         secret_pkce: 'secret',
     }

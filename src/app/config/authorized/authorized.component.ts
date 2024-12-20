@@ -1,6 +1,6 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Message, MessageService } from 'primeng/api';
+import { MessageService, ToastMessageOptions } from 'primeng/api';
 import { AuthService } from '../../service/authorization/auth.service';
 import { TokenService } from '../../service/authorization/token.service';
 import { PRIME_NG_MODULES } from '../primeNg/primeng-global-imports';
@@ -42,8 +42,8 @@ export class AuthorizedComponent implements OnInit {
       },
       error: () => {
         this.tokenService.clear();
-        const messages: Message[] = [
-          { severity: 'success', summary: 'Confirmación', detail: `Se guardó registro existosamente`, life: 5000 }
+        const messages: ToastMessageOptions[] = [
+          { severity: 'error', summary: 'Error', detail: `Error al obtener token`, life: 5000 }
         ];
         this.messagesService.setMessages(messages);
       }

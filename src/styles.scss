@@ -1,1 +1,17 @@
-/* You can add global styles to this file, and also import other style files */
+/* Íconos de PrimeNG */
+@import '../node_modules/primeicons/primeicons.css';
+
+/* Estilos utilitarios de PrimeFlex (opcional) */
+@import '../node_modules/primeflex/primeflex.css';
+
+/* Font Poppins */
+@import "../node_modules/@fontsource/poppins/latin.css";
+
+.custom-header th {
+    background-color: #dddcdc; /* Cambia el color de fondo */
+    color: rgb(5, 5, 5);              /* Cambia el color del texto */
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+}
