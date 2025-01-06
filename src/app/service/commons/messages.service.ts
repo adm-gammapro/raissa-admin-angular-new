@@ -1,24 +1,19 @@
 import { Injectable } from '@angular/core';
-import { Message } from 'primeng/api';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MessagesService {
 
-  private messages: Message[] = [];
+  private _message: string | null = null;
 
-  setMessages(messages: Message[]) {
-    this.messages = messages;
+  setMessage(message: string): void {
+    this._message = message;
   }
 
-  getMessages(): Message[] {
-    const msgs = this.messages;
-    this.clearMessages(); // Limpia los mensajes después de obtenerlos para evitar que se muestren repetidamente
-    return msgs;
-  }
-
-  clearMessages() {
-    this.messages = [];
+  getMessage(): string | null {
+    const message = this._message;
+    this._message = null; // Limpia el mensaje después de obtenerlo
+    return message;
   }
 }

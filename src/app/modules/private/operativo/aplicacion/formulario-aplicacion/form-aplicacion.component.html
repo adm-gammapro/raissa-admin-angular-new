@@ -1,0 +1,86 @@
+<app-header></app-header>
+<p-toast />
+<p-confirmDialog/>
+<form [formGroup]="aplicacionForm">
+    <p-panel>
+        <div class="card flex justify-center">
+            <p-breadcrumb class="max-w-full" [model]="items" [home]="home" />
+        </div>
+
+
+
+        <div class="flex bg-gray-100">
+
+            <div class="w-full flex align-items-center justify-content-center">
+                <div class="formgrid grid w-full">
+                    <div>
+                        <input type="hidden" formControlName="codigo" id="codigo">
+                    </div>
+                    <div class="field col-12 md:col-3"></div>
+                    <div class="field col-12 md:col-3">
+                        <label for="descripcion" class="pl-1">Descripción
+                            <span *ngIf="isFieldRequired('descripcion')" style="color: red;">*</span>
+                        </label>
+                        <input id="descripcion" 
+                            type="text"
+                            pInputText
+                            maxlength="100"
+                            (input)="filterAlphanumeric($event)"
+                            formControlName="descripcion"
+                            [ngClass]="(aplicacionForm.get('descripcion')?.invalid && (aplicacionForm.get('descripcion')?.touched || aplicacionForm.get('descripcion')?.dirty)) ? 'ng-invalid ng-dirty w-full' : 'w-full'">
+                        <div *ngIf="aplicacionForm.get('descripcion')?.errors?.['required'] && aplicacionForm.get('descripcion')?.touched" class="p-error">
+                            <p-message severity="error" variant="simple" size="small">El campo es requerido</p-message>
+                        </div>
+                        <div *ngIf="aplicacionForm.get('descripcion')?.errors?.['maxlength'] && aplicacionForm.get('descripcion')?.touched" class="p-error">
+                            <p-message severity="error" variant="simple" size="small">Ha excedido el número máximo de caracteres permitidos</p-message>
+                        </div>
+                    </div>
+
+                    <div class="field col-12 md:col-3">
+                        <label for="ruta" class="pl-1">Ruta
+                            <span *ngIf="isFieldRequired('ruta')" style="color: red;">*</span>
+                        </label>
+                        <input id="ruta" 
+                            type="text"
+                            pInputText
+                            maxlength="100"
+                            (input)="filterAlphanumeric($event)"
+                            formControlName="ruta"
+                            [ngClass]="(aplicacionForm.get('ruta')?.invalid && (aplicacionForm.get('ruta')?.touched || aplicacionForm.get('ruta')?.dirty)) ? 'ng-invalid ng-dirty w-full' : 'w-full'">
+                        <div *ngIf="aplicacionForm.get('ruta')?.errors?.['required'] && aplicacionForm.get('ruta')?.touched" class="p-error">
+                            <p-message severity="error" variant="simple" size="small">El campo es requerido</p-message>
+                        </div>
+                        <div *ngIf="aplicacionForm.get('ruta')?.errors?.['maxlength'] && aplicacionForm.get('ruta')?.touched" class="p-error">
+                            <p-message severity="error" variant="simple" size="small">Ha excedido el número máximo de caracteres permitidos</p-message>
+                        </div>
+                    </div>
+                    
+                    <div class="field col-12 md:col-3">
+                        
+                    </div>
+                    <div class="field col-12 md:col-5"></div>
+                    <div class="field col-12 md:col-1">
+                        <p-button label="Guardar" 
+                                pTooltip="Guardar" 
+                                variant="outlined"
+                                severity="info" 
+                                (onClick)="guardar();"
+                                [styleClass]="'w-full'"/>
+                    </div>
+                    <div class="field col-12 md:col-1">
+                        <p-button label="Volver" 
+                                pTooltip="Volver" 
+                                variant="outlined" 
+                                severity="contrast" 
+                                (onClick)="navigateToFormEntorno()"
+                                [styleClass]="'w-full'"/>
+                    </div>
+                    <div class="field col-12 md:col-5"></div>
+                </div>
+            </div>
+
+        </div>
+    </p-panel>
+
+    
+</form>

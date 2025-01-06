@@ -21,7 +21,7 @@ import { MenuComponent } from '../menu/menu.component';
 })
 export class HeaderComponent implements OnInit {
   sidebarVisible: boolean = false;
-  usuario: String|null = "";
+  usuario: string|null = "";
   items: MenuItem[] | undefined;
 
   constructor(private tokenService: TokenService) {

@@ -1,4 +1,5 @@
 import { AbstractControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from "@angular/forms";
+import { EstadoRegistroEnum, EstadoRegistroLabels, EstadoRegistroValue } from "../../apis/model/enums/estado-registro";
 
 export class Util {
     public static filterAlphanumeric(event: Event, myForm: FormGroup): void {
@@ -188,5 +189,20 @@ export class Util {
         if (control) {
           control.setValue(control.value.toUpperCase(), { emitEvent: false });
         }
-      }
+    }
+    public static getListEstadoRegistro() {
+      let estadoRegistroOptions = Object.keys(EstadoRegistroEnum).map(key => {
+        const value = EstadoRegistroEnum[key as keyof typeof EstadoRegistroEnum];
+        return {
+            label: EstadoRegistroLabels[value], // Etiqueta para mostrar en el combo
+            value: value // Valor seleccionado
+        };
+      });
+      return estadoRegistroOptions;
+    }
+
+    public static mapEstadoRegistro(valor: string): string {
+      const value = EstadoRegistroEnum[valor as keyof typeof EstadoRegistroEnum];
+      return EstadoRegistroValue[value];
+    }
 }

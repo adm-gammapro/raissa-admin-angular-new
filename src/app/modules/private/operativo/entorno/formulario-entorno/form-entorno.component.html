@@ -1,0 +1,69 @@
+<app-header></app-header>
+<p-toast />
+<p-confirmDialog/>
+<form [formGroup]="entornoForm">
+    <p-panel>
+        <ng-template #header>
+            <div class="field col-12 md:col-4"></div>
+            <div class="field col-12 md:col-4 flex justify-content-center items-center">
+              <span class="font-bold">Formulario entorno</span>
+            </div>
+            <div class="field col-12 md:col-4"></div>
+        </ng-template>
+
+        <div class="flex bg-gray-100">
+
+            <div class="w-full flex align-items-center justify-content-center">
+                <div class="formgrid grid w-full">
+                    <div>
+                        <input type="hidden" formControlName="codigo" id="codigo">
+                    </div>
+                    <div class="field col-12 md:col-4"></div>
+                    <div class="field col-12 md:col-4">
+                        <label for="descripcion" class="pl-1">Descripción
+                            <span *ngIf="isFieldRequired('descripcion')" style="color: red;">*</span>
+                        </label>
+                        <input id="descripcion" 
+                            type="text"
+                            pInputText
+                            maxlength="100"
+                            (input)="filterAlphanumeric($event)"
+                            formControlName="descripcion"
+                            [ngClass]="(entornoForm.get('descripcion')?.invalid && (entornoForm.get('descripcion')?.touched || entornoForm.get('descripcion')?.dirty)) ? 'ng-invalid ng-dirty w-full' : 'w-full'">
+                        <div *ngIf="entornoForm.get('descripcion')?.errors?.['required'] && entornoForm.get('descripcion')?.touched" class="p-error">
+                            <p-message severity="error" variant="simple" size="small">El campo es requerido</p-message>
+                        </div>
+                        <div *ngIf="entornoForm.get('descripcion')?.errors?.['maxlength'] && entornoForm.get('descripcion')?.touched" class="p-error">
+                            <p-message severity="error" variant="simple" size="small">Ha excedido el número máximo de caracteres permitidos</p-message>
+                        </div>
+                    </div>
+                    
+                    <div class="field col-12 md:col-4">
+                        
+                    </div>
+                    <div class="field col-12 md:col-5"></div>
+                    <div class="field col-12 md:col-1">
+                        <p-button label="Guardar" 
+                                pTooltip="Guardar" 
+                                variant="outlined"
+                                severity="info" 
+                                (onClick)="guardar();"
+                                [styleClass]="'w-full'"/>
+                    </div>
+                    <div class="field col-12 md:col-1">
+                        <p-button label="Volver" 
+                                pTooltip="Volver" 
+                                variant="outlined" 
+                                severity="contrast" 
+                                (onClick)="navigateToFormEntorno()"
+                                [styleClass]="'w-full'"/>
+                    </div>
+                    <div class="field col-12 md:col-5"></div>
+                </div>
+            </div>
+
+        </div>
+    </p-panel>
+
+    
+</form>

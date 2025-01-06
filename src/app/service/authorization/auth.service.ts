@@ -106,11 +106,11 @@ export class AuthService {
     const headers = new HttpHeaders({
       
     });
-    const url = `${environment.url.base}/seguridad/obtenerUsuarioByUsername?${params}`;
+    const url = `${environment.url.base}/usuario/get-usuario-by-username?${params}`;
 
     return this.httpClient.get(url, { headers: headers }).pipe(
       map((response: any) => {
-        return response.body;
+        return response;
       }),
       catchError((e) => {
           this.isNoAutorizado(e);

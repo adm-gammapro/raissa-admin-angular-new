@@ -17,11 +17,11 @@ import { PRIME_NG_MODULES } from '../../../config/primeNg/primeng-global-imports
 export class ContentWebComponent {
   messages: ToastMessageOptions[] = [];
 
-  constructor(private messagesService: MessagesService) {
+  constructor(private readonly messagesService: MessagesService) {
 
   }
 
   ngOnInit() {
-    this.messages = this.messagesService.getMessages();
+    //this.messages = this.messagesService.getMessages();
   }
 }

@@ -21,7 +21,7 @@ export const environment = {
     },
     security: {
         authorize_uri: 'http://localhost:9000/oauth2/authorize?',
-        client_id: 'user',
+        client_id: 'client',
         redirect_uri: 'http://127.0.0.2:4200/authorized',
         scope: 'openid',
         response_type: 'code',

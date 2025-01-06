@@ -1,0 +1,106 @@
+<app-header></app-header>
+<p-toast />
+<p-confirmdialog />
+    <form [formGroup]="aplicacionSearchForm">
+        <p-panel>
+
+            <div class="card flex justify-center">
+                <p-breadcrumb class="max-w-full" [model]="items" [home]="home" />
+            </div>
+
+            <div class="flex border-round bg-gray-100 m-1 border-300">
+                <div class="w-12 flex align-items-center justify-content-center">
+                    <div class="formgrid grid w-12 flex  pt-5">
+                        
+                        <div class="field col-12 md:col-2">
+                            <p-floatLabel class="w-full" variant="on">
+                                <p-select 
+                                    formControlName="estadoSearch"
+                                    inputId="estadoSearch"
+                                    [options]="estadoRegistroOptions"
+                                    optionLabel="label"
+                                    optionValue="value" 
+                                    placeholder="Selecciona estado" 
+                                    styleClass="w-full"/>
+                                <label for="estadoSearch">Estado</label>
+                            </p-floatLabel>
+                        </div>
+                        <div class="field col-12 md:col-7">
+                        </div>
+                        <div class="field col-12 md:col-1 text-right">
+                            <p-button label="Buscar" 
+                                    pTooltip="Buscar" 
+                                    [outlined]="true" 
+                                    severity="secondary" 
+                                    (onClick)="busqueda();"
+                                    styleClass="w-full"/>
+                        </div>
+                        <div class="field col-12 md:col-1 text-right">
+                            <p-button label="Limpiar" 
+                                    pTooltip="Limpiar" 
+                                    [outlined]="true" 
+                                    severity="secondary" 
+                                    (onClick)="clearForm();"
+                                    styleClass="w-full"/>
+                        </div>
+                        <div class="field col-12 md:col-1 text-right">
+                            <p-button label="Agregar" 
+                                    pTooltip="Agregar" 
+                                    [outlined]="true" 
+                                    severity="secondary" 
+                                    (onClick)="navigateToFormEntorno(null)"
+                                    styleClass="w-full"/>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="flex border-round p-1 m-1 border-300">
+                <div class="w-12 p-1 flex align-items-center justify-content-center">
+                    <p-table
+                        [value]="aplicaciones"
+                        selectionMode="single" 
+                        class="w-full"
+                        [styleClass]="'p-datatable-sm'">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th id="descripcion" style="width:60%">Descripcion entorno</th>
+                                <th id="estado" style="width:25%">Estado</th>
+                                <th id="acciones" style="width:15%; text-align: center;">Acciones</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-aplicacion>
+                            <tr>
+                                <td>{{aplicacion.descripcion}}</td>
+                                <td>{{aplicacion.estadoRegistro | estadoRegistroLabel }}</td>
+                                <td style="text-align: center;">
+                                    <p-button icon="pi pi-file-edit" 
+                                            [rounded]="true" 
+                                            [text]="true" 
+                                            type="button" 
+                                            pRipple
+                                            severity="secondary"
+                                            pTooltip="Editar" 
+                                            tooltipPosition="top" 
+                                            [disabled]="esBotonDeshabilitado(aplicacion)" 
+                                            (onClick)="navigateToFormEntorno(aplicacion.codigo)"/>
+                                    <p-button icon="pi pi-trash" 
+                                            [rounded]="true" 
+                                            [text]="true" 
+                                            type="button" 
+                                            pRipple
+                                            severity="secondary"
+                                            pTooltip="Dar de baja" 
+                                            tooltipPosition="left"
+                                            [disabled]="esBotonDeshabilitado(aplicacion)" 
+                                            (onClick)="eliminarFila($event, aplicacion)"/>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                    
+                </div> 
+            </div>
+            <app-paginator *ngIf="paginator" [paginatorInput] = "paginator" (paginatorOutput)="cambioPagina($event)"></app-paginator>
+        </p-panel>
+    </form>

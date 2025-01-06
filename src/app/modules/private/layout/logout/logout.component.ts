@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { PRIME_NG_MODULES } from '../../../../config/primeNg/primeng-global-imports';
 
 @Component({
@@ -10,6 +10,7 @@ import { PRIME_NG_MODULES } from '../../../../config/primeNg/primeng-global-impo
   imports: [FormsModule,
     ReactiveFormsModule,
     CommonModule,
+    RouterModule,
     ...PRIME_NG_MODULES],
 providers: [],
   templateUrl: './logout.component.html',

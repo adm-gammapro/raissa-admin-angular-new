@@ -1,4 +1,4 @@
-const URL_BASE = 'http://3.139.76.61:8080/admin'
+const URL_BASE = 'http://3.139.76.61:8081/admin'
 
 export const environment = {
     production: false,

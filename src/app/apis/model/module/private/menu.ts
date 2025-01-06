@@ -1,4 +1,4 @@
-import { Icono } from "./icono";
+import { Modulo } from "./modulo";
 
 export class Menu {
     codigo: number;
@@ -9,10 +9,10 @@ export class Menu {
     opcionPadre: number;
     descripcionOpcionPadre: string;
     numeroOrden: number;
-    codigoModulo: number;
-    descripcionModulo: string;
+    modulo: Modulo = new Modulo();
     estadoRegistro: string;
-    listIconos: Icono[] = [];
+    seleccionable: string;
+    audiFechIns: string;
 
     constructor() {
         this.codigo = 0;
@@ -23,8 +23,8 @@ export class Menu {
         this.opcionPadre = 0;
         this.descripcionOpcionPadre = "";
         this.numeroOrden = 0;
-        this.codigoModulo = 0;
-        this.descripcionModulo = "";
         this.estadoRegistro = "";
+        this.seleccionable = "";
+        this.audiFechIns = "";
     }
 }

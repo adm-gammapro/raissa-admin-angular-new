@@ -38,14 +38,14 @@ export class AuthorizedComponent implements OnInit {
       next: value => {
         this.tokenService.setTokens(value.access_token, value.refresh_token);
         this.authService.guardarUsuario(value.access_token);
-        this.router.navigate(['/seleccion-empresa']);
+        this.router.navigate(['content']);
       },
       error: () => {
         this.tokenService.clear();
         const messages: ToastMessageOptions[] = [
           { severity: 'error', summary: 'Error', detail: `Error al obtener token`, life: 5000 }
         ];
-        this.messagesService.setMessages(messages);
+        //this.messagesService.setMessages(messages);
       }
     });
   }

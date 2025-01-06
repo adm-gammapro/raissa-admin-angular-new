@@ -10,26 +10,25 @@ import { MenuItem } from 'primeng/api';
 })
 export class MenuService {
   private menuItems: MenuItem[] | null = null;
-  private url : string = environment.url.base + '/seguridad';
+  private url : string = environment.url.base + '/opcion-usuario';
 
   constructor(private http: HttpClient,
               private authService: AuthService) { }
 
-  getMenuUsuarios(user: string, idEmpresa: string):  Observable<any> {
+  getMenuUsuarios(user: string):  Observable<any> {
 
     const params = [
       `usuario=${user}`,
-      `idEmpresa=${idEmpresa}`,
     ].filter(Boolean).join('&');
 
     const headers = new HttpHeaders({
     });
 
-    const url = `${this.url}/listarOpcionesUsuario?${params}`;
+    const url = `${this.url}/list-opciones-usuario?${params}`;
 
     return this.http.get(url, { headers: headers }).pipe(
       map((response: any) => {
-        return response.body;
+        return response;
       }),
       catchError(e => {
           this.authService.isNoAutorizado(e);

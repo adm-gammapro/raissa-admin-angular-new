@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { PRIME_NG_MODULES } from '../../../../config/primeNg/primeng-global-imports';
 import { MenuUsuario } from '../../../../apis/model/module/private/menu-usuario';
@@ -13,6 +13,7 @@ import { MenuService } from '../../../../service/modules/private/administrativo/
   selector: 'app-menu',
   standalone: true,
   imports: [CommonModule,
+    RouterModule,
     ...PRIME_NG_MODULES],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [MenuService],
@@ -21,45 +22,36 @@ import { MenuService } from '../../../../service/modules/private/administrativo/
 })
 export class MenuComponent implements OnInit {
   items: MenuItem[] = []; 
-  //menuUsuario : MenuUsuario = new MenuUsuario();
-  //public codMod?: string;
-  //public codFij?: string;
   public nombreEmpresa?: string;
   listaModulos: Modulo[]= [];
   listaPadres: Menu[] = []
   listaOpciones: Menu[] = [];
 
-  constructor(private menuService: MenuService, 
-              private activatedRoute: ActivatedRoute, 
-              private router: Router) {
-    if (sessionStorage.getItem(environment.session.NOMBRE_EMPRESA) != undefined) {
-      this.nombreEmpresa = sessionStorage.getItem(environment.session.NOMBRE_EMPRESA)!;
+  constructor(private readonly menuService: MenuService) {
+    if(typeof window !== 'undefined'  && typeof window.sessionStorage !== 'undefined') {
+      if (sessionStorage.getItem(environment.session.NOMBRE_EMPRESA) != undefined) {
+        this.nombreEmpresa = sessionStorage.getItem(environment.session.NOMBRE_EMPRESA)!;
+      } 
     } else {
       this.nombreEmpresa = "Administrador";
     }
   }
 
-  ngOnInit() { 
-    this.activatedRoute.paramMap.subscribe (params => {
-      let user: string | null = sessionStorage.getItem(environment.session.USERNAME)!;
-      let idEmpresa: string | null = sessionStorage.getItem(environment.session.ID_EMPRESA)!;
-
-      if(typeof window !== 'undefined'  && typeof window.sessionStorage !== 'undefined') {
-        if (sessionStorage.getItem(environment.session.MENU_ITEMS)) {
-          const menuItemsString = sessionStorage.getItem(environment.session.MENU_ITEMS);
-          if (menuItemsString) {
-            this.items = JSON.parse(menuItemsString) as MenuItem[];
-          }
-        } else {
-          this.menuService.getMenuUsuarios(user, idEmpresa)
-          .subscribe(response => {
-            const menuUsuario = response as MenuUsuario;
-            this.items = this.cargarMenu(menuUsuario);
-          });
-        }
-      } 
-    })
-  } 
+  ngOnInit() {
+    if (typeof window !== 'undefined' && typeof window.sessionStorage !== 'undefined') {
+      const user = sessionStorage.getItem(environment.session.USERNAME);
+      const menuItemsString = sessionStorage.getItem(environment.session.MENU_ITEMS);
+  
+      if (menuItemsString) {
+        this.items = JSON.parse(menuItemsString) as MenuItem[];
+      } else if (user) {
+        this.menuService.getMenuUsuarios(user).subscribe(response => {
+          const menuUsuario = response as MenuUsuario;
+          this.items = this.cargarMenu(menuUsuario);
+        });
+      }
+    }
+  }
 
   cargarMenu(menuUsuario: MenuUsuario): MenuItem[] {
     this.listaModulos = menuUsuario.listModulo;
@@ -80,39 +72,36 @@ export class MenuComponent implements OnInit {
             items: this.convertirOpcionesPadreAMenuItems(this.listaPadres, modulo.codigo)
         };
     });
-
     return menuItems;
   }
 
   convertirOpcionesPadreAMenuItems(opcionesPadre: Menu[], codigoModulo: number): MenuItem[] {
     let menuItems = opcionesPadre
-                      .filter(menu => menu.codigoModulo === codigoModulo)
-                      .map(menu => {
-                          return {
-                              key: menu.codigo.toString(), // Asignar codigo a key como string
-                              label: menu.descripcionOpcion,    // Asignar nombreModulo a label
-                              icon: menu.icono,            // Asignar icono a icon
-                              items: this.convertirOpcionesAMenuItems(this.listaOpciones, menu.codigo)
-                          };
-                        }
-                      );
-
+          .filter(menu => menu.modulo.codigo === codigoModulo)
+          .map(menu => {
+              return {
+                key: menu.codigo.toString(), // Asignar codigo a key como string
+                label: menu.descripcionOpcion,    // Asignar nombreModulo a label
+                icon: menu.icono,            // Asignar icono a icon
+                items: this.convertirOpcionesAMenuItems(this.listaOpciones, menu.codigo)
+              };
+            }
+          );
     return menuItems;
   }
 
   convertirOpcionesAMenuItems(opciones: Menu[], codigoPadre: number): MenuItem[] {
     let menuItems = opciones
-                      .filter(menu => menu.opcionPadre === codigoPadre)
-                      .map(menu => {
-                          return {
-                              key: menu.codigo.toString(), // Asignar codigo a key como string
-                              label: menu.descripcionOpcion,    // Asignar nombreModulo a label
-                              icon: menu.icono,            // Asignar icono a icon
-                              route: menu.rutaOpcion
-                          };
-                        }
-                      );
-
+          .filter(menu => menu.opcionPadre === codigoPadre)
+          .map(menu => {
+              return {
+                key: menu.codigo.toString(), // Asignar codigo a key como string
+                label: menu.descripcionOpcion,    // Asignar nombreModulo a label
+                icon: menu.icono,            // Asignar icono a icon
+                route: menu.rutaOpcion
+              };
+            }
+          );
     return menuItems;
   }
 }
