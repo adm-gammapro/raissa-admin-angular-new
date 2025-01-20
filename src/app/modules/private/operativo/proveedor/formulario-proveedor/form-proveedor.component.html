@@ -1,0 +1,134 @@
+<app-header></app-header>
+<p-toast />
+<p-confirmDialog/>
+<form [formGroup]="proveedorForm">
+    <p-panel>
+        <div class="card flex justify-center">
+            <p-breadcrumb class="max-w-full" [model]="items" [home]="home" />
+        </div>
+
+        <div class="flex bg-gray-100">
+
+            <div class="w-full flex align-items-center justify-content-center">
+                <div class="formgrid grid w-full">
+                    <div>
+                        <input type="hidden" formControlName="codigo" id="codigo">
+                    </div>
+                    <div class="field col-12 md:col-3">
+                        <label for="nombre" class="pl-1">Nombre proveedor
+                            <span *ngIf="isFieldRequired('nombre')" style="color: red;">*</span>
+                        </label>
+                        <input id="nombre" 
+                            type="text"
+                            pInputText
+                            maxlength="100"
+                            (input)="filterAlphanumeric($event)"
+                            formControlName="nombre"
+                            [ngClass]="(proveedorForm.get('nombre')?.invalid && (proveedorForm.get('nombre')?.touched || proveedorForm.get('nombre')?.dirty)) ? 'ng-invalid ng-dirty w-full' : 'w-full'">
+                        <div *ngIf="proveedorForm.get('nombre')?.errors?.['required'] && proveedorForm.get('nombre')?.touched" class="p-error">
+                            <p-message severity="error" variant="simple" size="small">El campo es requerido</p-message>
+                        </div>
+                        <div *ngIf="proveedorForm.get('nombre')?.errors?.['maxlength'] && proveedorForm.get('nombre')?.touched" class="p-error">
+                            <p-message severity="error" variant="simple" size="small">Ha excedido el número máximo de caracteres permitidos</p-message>
+                        </div>
+                    </div>
+
+                    <div class="field col-12 md:col-2">
+                        <label for="referencia" class="pl-1">Referencia
+                            <span *ngIf="isFieldRequired('referencia')" style="color: red;">*</span>
+                        </label>
+                        <input id="referencia" 
+                            type="text"
+                            pInputText
+                            maxlength="100"
+                            (input)="filterAlphanumeric($event)"
+                            formControlName="referencia"
+                            [ngClass]="(proveedorForm.get('referencia')?.invalid && (proveedorForm.get('referencia')?.touched || proveedorForm.get('referencia')?.dirty)) ? 'ng-invalid ng-dirty w-full' : 'w-full'">
+                        <div *ngIf="proveedorForm.get('referencia')?.errors?.['required'] && proveedorForm.get('referencia')?.touched" class="p-error">
+                            <p-message severity="error" variant="simple" size="small">El campo es requerido</p-message>
+                        </div>
+                        <div *ngIf="proveedorForm.get('referencia')?.errors?.['maxlength'] && proveedorForm.get('referencia')?.touched" class="p-error">
+                            <p-message severity="error" variant="simple" size="small">Ha excedido el número máximo de caracteres permitidos</p-message>
+                        </div>
+                    </div>
+
+                    <div class="field col-12 md:col-3">
+                        <label for="codigoInstitucionFinanciera" class="pl-1">Institución financiera
+                            <span *ngIf="isFieldRequired('codigoInstitucionFinanciera')" style="color: red;">*</span>
+                        </label>
+                        <p-select 
+                            formControlName="codigoInstitucionFinanciera" 
+                            inputId="codigoInstitucionFinanciera"
+                            [options]="institucionesFinancieras" 
+                            optionLabel="nombre" 
+                            optionValue="codigo"
+                            placeholder="Selecciona institucion financiera" 
+                            [ngClass]="(proveedorForm.get('codigoInstitucionFinanciera')?.invalid && (proveedorForm.get('codigoInstitucionFinanciera')?.touched || proveedorForm.get('codigoInstitucionFinanciera')?.dirty)) ? 'ng-invalid ng-dirty w-full' : 'w-full'"/>
+                        <div *ngIf="proveedorForm.get('codigoInstitucionFinanciera')?.errors?.['required'] && proveedorForm.get('codigoInstitucionFinanciera')?.touched" class="p-error">
+                            <p-message severity="error" variant="simple" size="small">El campo es requerido</p-message>
+                        </div>
+                        <div *ngIf="proveedorForm.get('codigoInstitucionFinanciera')?.errors?.['maxlength'] && proveedorForm.get('codigoInstitucionFinanciera')?.touched" class="p-error">
+                            <p-message severity="error" variant="simple" size="small">Ha excedido el número máximo de caracteres permitidos</p-message>
+                        </div>
+                    </div>
+
+                    <div class="field col-12 md:col-2">
+                        <label for="indicadorValorAdicional" class="pl-1">Valor adicional
+                            <span *ngIf="isFieldRequired('indicadorValorAdicional')" style="color: red;">*</span>
+                        </label>
+                        <p-select formControlName="indicadorValorAdicional"
+                                inputId="indicadorValorAdicional"
+                                [options]="opcionesSeleccionable"
+                                optionLabel="label"
+                                optionValue="value"
+                                placeholder="Seleccione opción"
+                                [ngClass]="(proveedorForm.get('indicadorValorAdicional')?.invalid && (proveedorForm.get('indicadorValorAdicional')?.touched || proveedorForm.get('indicadorValorAdicional')?.dirty)) ? 'ng-invalid ng-dirty w-full' : 'w-full'">
+                        </p-select>
+                        <div *ngIf="proveedorForm.get('indicadorValorAdicional')?.errors?.['required'] && proveedorForm.get('indicadorValorAdicional')?.touched" class="p-error">
+                            <p-message severity="error" variant="simple" size="small">El campo es requerido</p-message>
+                        </div>
+                    </div>
+
+                    <div class="field col-12 md:col-2">
+                        <label for="indicadorTokenizable" class="pl-1">Tokenizado
+                            <span *ngIf="isFieldRequired('indicadorTokenizable')" style="color: red;">*</span>
+                        </label>
+                        <p-select formControlName="indicadorTokenizable"
+                                inputId="indicadorTokenizable"
+                                [options]="opcionesSeleccionable"
+                                optionLabel="label"
+                                optionValue="value"
+                                placeholder="Seleccione opción"
+                                [ngClass]="(proveedorForm.get('indicadorTokenizable')?.invalid && (proveedorForm.get('indicadorTokenizable')?.touched || proveedorForm.get('indicadorTokenizable')?.dirty)) ? 'ng-invalid ng-dirty w-full' : 'w-full'">
+                        </p-select>
+                        <div *ngIf="proveedorForm.get('indicadorTokenizable')?.errors?.['required'] && proveedorForm.get('indicadorTokenizable')?.touched" class="p-error">
+                            <p-message severity="error" variant="simple" size="small">El campo es requerido</p-message>
+                        </div>
+                    </div>
+                    
+                    <div class="field col-12 md:col-5"></div>
+                    <div class="field col-12 md:col-1">
+                        <p-button label="Guardar" 
+                                pTooltip="Guardar" 
+                                variant="outlined"
+                                severity="info" 
+                                (onClick)="guardar();"
+                                [styleClass]="'w-full'"/>
+                    </div>
+                    <div class="field col-12 md:col-1">
+                        <p-button label="Volver" 
+                                pTooltip="Volver" 
+                                variant="outlined" 
+                                severity="contrast" 
+                                (onClick)="navigateToFormEntorno()"
+                                [styleClass]="'w-full'"/>
+                    </div>
+                    <div class="field col-12 md:col-5"></div>
+                </div>
+            </div>
+
+        </div>
+    </p-panel>
+
+    
+</form>

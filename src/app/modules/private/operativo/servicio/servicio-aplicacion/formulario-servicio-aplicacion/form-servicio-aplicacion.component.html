@@ -1,0 +1,116 @@
+<app-header></app-header>
+<p-toast />
+<p-confirmDialog/>
+<form [formGroup]="servicioForm">
+    <p-panel>
+        <div class="card flex justify-center">
+            <p-breadcrumb class="max-w-full" [model]="items" [home]="home" />
+        </div>
+
+        <div class="flex bg-gray-100">
+
+            <div class="w-full flex align-items-center justify-content-center">
+                <div class="formgrid grid w-full">
+                    <div>
+                        <input type="hidden" formControlName="codigo" id="codigo">
+                    </div>
+                    <div class="field col-12 md:col-1">
+                        
+                    </div>
+                    <div class="field col-12 md:col-3">
+                        <label for="nombre" class="pl-1">Nombre servicio
+                            <span *ngIf="isFieldRequired('nombre')" style="color: red;">*</span>
+                        </label>
+                        <input id="nombre" 
+                            type="text"
+                            pInputText
+                            maxlength="100"
+                            (input)="filterAlphanumeric($event)"
+                            formControlName="nombre"
+                            [ngClass]="(servicioForm.get('nombre')?.invalid && (servicioForm.get('nombre')?.touched || servicioForm.get('nombre')?.dirty)) ? 'ng-invalid ng-dirty w-full' : 'w-full'">
+                        <div *ngIf="servicioForm.get('nombre')?.errors?.['required'] && servicioForm.get('nombre')?.touched" class="p-error">
+                            <p-message severity="error" variant="simple" size="small">El campo es requerido</p-message>
+                        </div>
+                        <div *ngIf="servicioForm.get('nombre')?.errors?.['maxlength'] && servicioForm.get('nombre')?.touched" class="p-error">
+                            <p-message severity="error" variant="simple" size="small">Ha excedido el número máximo de caracteres permitidos</p-message>
+                        </div>
+                    </div>
+
+                    <div class="field col-12 md:col-2">
+                        <label for="codigoAplicacion" class="pl-1">Aplicación
+                            <span *ngIf="isFieldRequired('codigoAplicacion')" style="color: red;">*</span>
+                        </label>
+                        <p-select formControlName="codigoAplicacion" 
+                                inputId="codigoAplicacion" 
+                                [options]="aplicaciones" 
+                                optionLabel="descripcion"
+                                optionValue="codigo" 
+                                placeholder="Selecciona aplicación" 
+                                [ngClass]="(servicioForm.get('codigoAplicacion')?.invalid && (servicioForm.get('codigoAplicacion')?.touched || servicioForm.get('codigoAplicacion')?.dirty)) ? 'ng-invalid ng-dirty w-full' : 'w-full'" />
+                        <div *ngIf="servicioForm.get('codigoAplicacion')?.errors?.['required'] && servicioForm.get('codigoAplicacion')?.touched" class="p-error">
+                            <p-message severity="error" variant="simple" size="small">El campo es requerido</p-message>
+                        </div>
+                    </div>
+
+                    <div class="field col-12 md:col-2">
+                        <label for="codigoTipoServicio" class="pl-1">Tipo servicio
+                            <span *ngIf="isFieldRequired('codigoTipoServicio')" style="color: red;">*</span>
+                        </label>
+                        <p-select formControlName="codigoTipoServicio" 
+                                inputId="codigoTipoServicio" 
+                                [options]="tipoServicios" 
+                                optionLabel="nombre"
+                                optionValue="codigo" 
+                                placeholder="Selecciona aplicación" 
+                                [ngClass]="(servicioForm.get('codigoTipoServicio')?.invalid && (servicioForm.get('codigoTipoServicio')?.touched || servicioForm.get('codigoTipoServicio')?.dirty)) ? 'ng-invalid ng-dirty w-full' : 'w-full'" />
+                        <div *ngIf="servicioForm.get('codigoTipoServicio')?.errors?.['required'] && servicioForm.get('codigoTipoServicio')?.touched" class="p-error">
+                            <p-message severity="error" variant="simple" size="small">El campo es requerido</p-message>
+                        </div>
+                    </div>
+
+                    <div class="field col-12 md:col-2">
+                        <label for="esJob" class="pl-1">Es JOB?
+                            <span *ngIf="isFieldRequired('esJob')" style="color: red;">*</span>
+                        </label>
+                        <p-select formControlName="esJob"
+                                inputId="esJob"
+                                [options]="opcionesSeleccionable"
+                                optionLabel="label"
+                                optionValue="value"
+                                placeholder="Seleccione opción"
+                                [ngClass]="(servicioForm.get('esJob')?.invalid && (servicioForm.get('esJob')?.touched || servicioForm.get('esJob')?.dirty)) ? 'ng-invalid ng-dirty w-full' : 'w-full'">
+                        </p-select>
+                        <div *ngIf="servicioForm.get('esJob')?.errors?.['required'] && servicioForm.get('esJob')?.touched" class="p-error">
+                            <p-message severity="error" variant="simple" size="small">El campo es requerido</p-message>
+                        </div>
+                    </div>
+                    
+                    <div class="field col-12 md:col-2">
+                        
+                    </div>
+                    <div class="field col-12 md:col-5"></div>
+                    <div class="field col-12 md:col-1">
+                        <p-button label="Guardar" 
+                                pTooltip="Guardar" 
+                                variant="outlined"
+                                severity="info" 
+                                (onClick)="guardar();"
+                                [styleClass]="'w-full'"/>
+                    </div>
+                    <div class="field col-12 md:col-1">
+                        <p-button label="Volver" 
+                                pTooltip="Volver" 
+                                variant="outlined" 
+                                severity="contrast" 
+                                (onClick)="navigateToFormEntorno()"
+                                [styleClass]="'w-full'"/>
+                    </div>
+                    <div class="field col-12 md:col-5"></div>
+                </div>
+            </div>
+
+        </div>
+    </p-panel>
+
+    
+</form>

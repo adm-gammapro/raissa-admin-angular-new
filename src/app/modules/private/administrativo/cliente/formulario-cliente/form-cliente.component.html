@@ -1,0 +1,158 @@
+<app-header></app-header>
+<p-toast />
+<p-confirmDialog/>
+<form [formGroup]="clienteForm">
+    <p-panel>
+        <div class="card flex justify-center">
+            <p-breadcrumb class="max-w-full" [model]="items" [home]="home" />
+        </div>
+
+        <div class="flex bg-gray-100">
+
+            <div class="w-full flex align-items-center justify-content-center">
+                <div class="formgrid grid w-full">
+                    <div>
+                        <input type="hidden" formControlName="codigo" id="codigo">
+                    </div>
+
+                    <div class="field col-12 md:col-4">
+                        <label for="razonSocial" class="pl-1">Razón social
+                            <span *ngIf="isFieldRequired('razonSocial')" style="color: red;">*</span>
+                        </label>
+                        <input id="razonSocial" 
+                            type="text"
+                            pInputText
+                            maxlength="100"
+                            (input)="filterAlphanumeric($event)"
+                            formControlName="razonSocial"
+                            [ngClass]="(clienteForm.get('razonSocial')?.invalid && (clienteForm.get('razonSocial')?.touched || clienteForm.get('razonSocial')?.dirty)) ? 'ng-invalid ng-dirty w-full' : 'w-full'">
+                        <div *ngIf="clienteForm.get('razonSocial')?.errors?.['required'] && clienteForm.get('razonSocial')?.touched" class="p-error">
+                            <p-message severity="error" variant="simple" size="small">El campo es requerido</p-message>
+                        </div>
+                        <div *ngIf="clienteForm.get('razonSocial')?.errors?.['maxlength'] && clienteForm.get('razonSocial')?.touched" class="p-error">
+                            <p-message severity="error" variant="simple" size="small">Ha excedido el número máximo de caracteres permitidos</p-message>
+                        </div>
+                    </div>
+
+                    <div class="field col-12 md:col-2">
+                        <label for="ruc" class="pl-1">RUC
+                            <span *ngIf="isFieldRequired('ruc')" style="color: red;">*</span>
+                        </label>
+                        <input id="ruc" 
+                            type="text"
+                            pInputText
+                            maxlength="100"
+                            (input)="filterNumeric($event)"
+                            formControlName="ruc"
+                            [ngClass]="(clienteForm.get('ruc')?.invalid && (clienteForm.get('ruc')?.touched || clienteForm.get('ruc')?.dirty)) ? 'ng-invalid ng-dirty w-full' : 'w-full'">
+                        <div *ngIf="clienteForm.get('ruc')?.errors?.['required'] && clienteForm.get('ruc')?.touched" class="p-error">
+                            <p-message severity="error" variant="simple" size="small">El campo es requerido</p-message>
+                        </div>
+                        <div *ngIf="clienteForm.get('ruc')?.errors?.['maxlength'] && clienteForm.get('ruc')?.touched" class="p-error">
+                            <p-message severity="error" variant="simple" size="small">Ha excedido el número máximo de caracteres permitidos</p-message>
+                        </div>
+                    </div>
+                    
+                    <div class="field col-12 md:col-2">
+                        <label for="codigoTipoCliente" class="pl-1">Tipo cliente
+                            <span *ngIf="isFieldRequired('codigoTipoCliente')" style="color: red;">*</span>
+                        </label>
+                        <p-select 
+                            formControlName="codigoTipoCliente" 
+                            inputId="codigoTipoCliente"
+                            [options]="tipoClientes" 
+                            optionLabel="descripcion" 
+                            optionValue="codigo"
+                            placeholder="Selecciona tipo cliente" 
+                            [ngClass]="(clienteForm.get('codigoTipoCliente')?.invalid && (clienteForm.get('codigoTipoCliente')?.touched || clienteForm.get('codigoTipoCliente')?.dirty)) ? 'ng-invalid ng-dirty w-full' : 'w-full'"/>
+                        <div *ngIf="clienteForm.get('codigoTipoCliente')?.errors?.['required'] && clienteForm.get('codigoTipoCliente')?.touched" class="p-error">
+                            <p-message severity="error" variant="simple" size="small">El campo es requerido</p-message>
+                        </div>
+                        <div *ngIf="clienteForm.get('codigoTipoCliente')?.errors?.['maxlength'] && clienteForm.get('codigoTipoCliente')?.touched" class="p-error">
+                            <p-message severity="error" variant="simple" size="small">Ha excedido el número máximo de caracteres permitidos</p-message>
+                        </div>
+                    </div>
+
+                    <div class="field col-12 md:col-4">
+                        <label for="direccion" class="pl-1">Dirección
+                            <span *ngIf="isFieldRequired('direccion')" style="color: red;">*</span>
+                        </label>
+                        <input id="direccion" 
+                            type="text"
+                            pInputText
+                            maxlength="100"
+                            (input)="filterAlphanumeric($event)"
+                            formControlName="direccion"
+                            [ngClass]="(clienteForm.get('direccion')?.invalid && (clienteForm.get('direccion')?.touched || clienteForm.get('direccion')?.dirty)) ? 'ng-invalid ng-dirty w-full' : 'w-full'">
+                        <div *ngIf="clienteForm.get('direccion')?.errors?.['required'] && clienteForm.get('direccion')?.touched" class="p-error">
+                            <p-message severity="error" variant="simple" size="small">El campo es requerido</p-message>
+                        </div>
+                        <div *ngIf="clienteForm.get('direccion')?.errors?.['maxlength'] && clienteForm.get('direccion')?.touched" class="p-error">
+                            <p-message severity="error" variant="simple" size="small">Ha excedido el número máximo de caracteres permitidos</p-message>
+                        </div>
+                    </div>
+
+                    <div class="field col-12 md:col-2">
+                        <label for="telefonoFijo" class="pl-1">Teléfono fijo
+                            <span *ngIf="isFieldRequired('telefonoFijo')" style="color: red;">*</span>
+                        </label>
+                        <input id="telefonoFijo" 
+                            type="text"
+                            pInputText
+                            maxlength="100"
+                            (input)="filterNumeric($event)"
+                            formControlName="telefonoFijo"
+                            [ngClass]="(clienteForm.get('telefonoFijo')?.invalid && (clienteForm.get('telefonoFijo')?.touched || clienteForm.get('telefonoFijo')?.dirty)) ? 'ng-invalid ng-dirty w-full' : 'w-full'">
+                        <div *ngIf="clienteForm.get('telefonoFijo')?.errors?.['required'] && clienteForm.get('telefonoFijo')?.touched" class="p-error">
+                            <p-message severity="error" variant="simple" size="small">El campo es requerido</p-message>
+                        </div>
+                        <div *ngIf="clienteForm.get('telefonoFijo')?.errors?.['maxlength'] && clienteForm.get('telefonoFijo')?.touched" class="p-error">
+                            <p-message severity="error" variant="simple" size="small">Ha excedido el número máximo de caracteres permitidos</p-message>
+                        </div>
+                    </div>
+
+                    <div class="field col-12 md:col-2">
+                        <label for="telefonoCelular" class="pl-1">Teléfono celular
+                            <span *ngIf="isFieldRequired('telefonoCelular')" style="color: red;">*</span>
+                        </label>
+                        <input id="telefonoCelular" 
+                            type="text"
+                            pInputText
+                            maxlength="100"
+                            (input)="filterNumeric($event)"
+                            formControlName="telefonoCelular"
+                            [ngClass]="(clienteForm.get('telefonoCelular')?.invalid && (clienteForm.get('telefonoCelular')?.touched || clienteForm.get('telefonoCelular')?.dirty)) ? 'ng-invalid ng-dirty w-full' : 'w-full'">
+                        <div *ngIf="clienteForm.get('telefonoCelular')?.errors?.['required'] && clienteForm.get('telefonoCelular')?.touched" class="p-error">
+                            <p-message severity="error" variant="simple" size="small">El campo es requerido</p-message>
+                        </div>
+                        <div *ngIf="clienteForm.get('telefonoCelular')?.errors?.['maxlength'] && clienteForm.get('telefonoCelular')?.touched" class="p-error">
+                            <p-message severity="error" variant="simple" size="small">Ha excedido el número máximo de caracteres permitidos</p-message>
+                        </div>
+                    </div>
+                    <div class="field col-12 md:col-8"></div>
+                    <div class="field col-12 md:col-5"></div>
+                    <div class="field col-12 md:col-1">
+                        <p-button label="Guardar" 
+                                pTooltip="Guardar" 
+                                variant="outlined"
+                                severity="info" 
+                                (onClick)="guardar();"
+                                [styleClass]="'w-full'"/>
+                    </div>
+                    <div class="field col-12 md:col-1">
+                        <p-button label="Volver" 
+                                pTooltip="Volver" 
+                                variant="outlined" 
+                                severity="contrast" 
+                                (onClick)="navigateToFormEntorno()"
+                                [styleClass]="'w-full'"/>
+                    </div>
+                    <div class="field col-12 md:col-5"></div>
+                </div>
+            </div>
+
+        </div>
+    </p-panel>
+
+    
+</form>

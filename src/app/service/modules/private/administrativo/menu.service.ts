@@ -10,10 +10,10 @@ import { MenuItem } from 'primeng/api';
 })
 export class MenuService {
   private menuItems: MenuItem[] | null = null;
-  private url : string = environment.url.base + '/opcion-usuario';
+  private readonly url : string = environment.url.base + '/opcion-usuario';
 
-  constructor(private http: HttpClient,
-              private authService: AuthService) { }
+  constructor(private readonly http: HttpClient,
+              private readonly authService: AuthService) { }
 
   getMenuUsuarios(user: string):  Observable<any> {
 

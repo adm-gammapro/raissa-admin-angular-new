@@ -21,7 +21,7 @@ import { DrawerModule } from 'primeng/drawer';
 import { PaginatorModule } from 'primeng/paginator';
 import { TableModule } from 'primeng/table';
 import { InputMaskModule } from 'primeng/inputmask';
-import { CalendarModule } from 'primeng/calendar';
+import { DatePickerModule } from 'primeng/datepicker';
 import { DialogModule } from 'primeng/dialog';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
@@ -57,7 +57,7 @@ export const PRIME_NG_MODULES = [
     PaginatorModule,
     TableModule,
     InputMaskModule,
-    CalendarModule,
+    DatePickerModule,
     DialogModule,
     ConfirmPopupModule,
     ConfirmDialogModule,

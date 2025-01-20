@@ -3,13 +3,9 @@
 <p-confirmDialog/>
 <form [formGroup]="entornoForm">
     <p-panel>
-        <ng-template #header>
-            <div class="field col-12 md:col-4"></div>
-            <div class="field col-12 md:col-4 flex justify-content-center items-center">
-              <span class="font-bold">Formulario entorno</span>
-            </div>
-            <div class="field col-12 md:col-4"></div>
-        </ng-template>
+        <div class="card flex justify-center">
+            <p-breadcrumb class="max-w-full" [model]="items" [home]="home" />
+        </div>
 
         <div class="flex bg-gray-100">
 

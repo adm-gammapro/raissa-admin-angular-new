@@ -3,16 +3,16 @@ import { HeaderComponent } from "../../layout/header/header.component";
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { PRIME_NG_MODULES } from '../../../../config/primeNg/primeng-global-imports';
-import { ConfirmationService, MessageService } from 'primeng/api';
-import { EntornoService } from '../../../../service/modules/private/operativo/entorno.service';
+import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { PaginatorComponent } from '../../commons/paginator/paginator.component';
 import { EntornoResponse } from '../../../../apis/model/module/private/operativo/entorno/response/entorno-response';
-import { Paginator } from '../../../../apis/model/commons/paginator';
+import { Paginator } from '../../../../apis/model/module/private/commons/response/paginator';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Util } from '../../../../utils/util/util.util';
 import { EstadoRegistroEnum } from '../../../../apis/model/enums/estado-registro';
 import { EstadoRegistroLabelPipe } from '../../../../apis/model/pipe/estado-registro-label.pipe';
 import { MessagesService } from '../../../../service/commons/messages.service';
+import { EntornoService } from '../../../../service/modules/private/operativo/entorno/entorno.service';
 
 @Component({
   selector: 'app-entorno',
@@ -28,6 +28,8 @@ import { MessagesService } from '../../../../service/commons/messages.service';
   styleUrl: './entorno.component.scss'
 })
 export class EntornoComponent implements OnInit {
+  items: MenuItem[] | undefined;
+  home: MenuItem | undefined;
   public entornos: EntornoResponse[] = [];
   estadoSearch: string | undefined;
   public entornoSearchForm: FormGroup;
@@ -111,61 +113,31 @@ export class EntornoComponent implements OnInit {
 
   ngOnInit() {
     this.activatedRoute.paramMap.subscribe(params => {
-      let pagina = Number(params.get('pagina'));
-      let estado = params.get('estadoSearch');
-      let cantReg = Number(params.get('cantReg'));
+      const pagina = Util.parseOrDefault(params.get('pagina'), 0);
+      const cantReg = Util.parseOrDefault(params.get('cantReg'), 5);
+      const estado = Util.getEstado(params.get('estadoSearch'));
+  
+      // Configuración del paginador
+      this.paginator.numeroPagina = pagina;
+      this.paginator.cantidadRegistros = cantReg;
+      this.estadoSearch = estado === "T" ? "" : estado;
 
-      if (!pagina) {
-        this.paginator.numeroPagina = 0;
-      } else {
-        this.paginator.numeroPagina = pagina;
-      }
+      this.loadEntornos();
 
-      if (!estado) {
-        this.estadoSearch = "S";
-      } else if(estado === "T") {
-        this.estadoSearch = "";
-      } else {
-        this.estadoSearch = estado;
-      }
+      this.estadoSearch = !estado ? "S" : estado;
 
-      if (!cantReg) {
-        this.paginator.cantidadRegistros = 5;
-      } else {
-        this.paginator.cantidadRegistros = cantReg;
-      }
-
-      this.entornoService.getEntornosPage(this.paginator.numeroPagina, this.estadoSearch, this.paginator.cantidadRegistros).subscribe(response => {
-        this.entornos = response.content as EntornoResponse[];
-        this.paginator.totalRegistros = response.totalElements;
-        this.paginator.primerRegistroVisualizado = response.pageable.offset;
-
-        if (!estado) {
-          this.estadoSearch = "S";
-        } else {
-          this.estadoSearch = estado;
-        }
-
-        this.entornoSearchForm.patchValue({
-          estadoSearch: this.estadoSearch
-        });
-
-        const message = this.messagesService.getMessage();
-        if (message) {
-          this.messageService.add({ severity: 'success', summary: 'Confirmación', detail: message, life: 5000 });
-        }
+      this.entornoSearchForm.patchValue({
+        estadoSearch: this.estadoSearch
       });
+  
+      this.initializeBreadcrumbs();
     });
   }
 
   busqueda() {
-      this.estadoSearch = this.entornoSearchForm.controls['estadoSearch'].value;
+    const estado = this.entornoSearchForm.controls['estadoSearch'].value ?? "T";
 
-      if (this.estadoSearch === null) {
-        this.estadoSearch = "T";
-      }
-
-      this.router.navigate(['/entorno', this.paginator.numeroPagina, this.paginator.cantidadRegistros, this.estadoSearch]);
+    this.router.navigate(['/entorno', this.paginator.numeroPagina, this.paginator.cantidadRegistros, estado]);
   }
 
   clearForm() {
@@ -181,4 +153,28 @@ export class EntornoComponent implements OnInit {
       this.router.navigate(['/entorno']);
     });
   }
+
+  private loadEntornos(): void {
+      this.entornoService
+        .getEntornosPage(this.paginator.numeroPagina, this.estadoSearch, this.paginator.cantidadRegistros)
+        .subscribe(response => {
+          this.entornos = response.content as EntornoResponse[];
+          this.paginator.totalRegistros = response.totalElements;
+          this.paginator.primerRegistroVisualizado = response.pageable.offset;
+
+          this.loadMessages();
+        });
+    }
+  
+    private loadMessages(): void {
+      const message = this.messagesService.getMessage();
+      if (message) {
+        this.messageService.add({ severity: 'success', summary: 'Confirmación', detail: message, life: 5000 });
+      }
+    }
+  
+    private initializeBreadcrumbs(): void {
+      this.items = [{ label: 'Entornos' }];
+      this.home = { icon: 'pi pi-home', routerLink: '/content' };
+    }
 }

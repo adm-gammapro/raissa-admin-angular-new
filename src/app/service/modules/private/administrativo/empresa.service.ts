@@ -1,20 +1,18 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AuthService } from '../../../authorization/auth.service';
-import { environment } from '../../../../../environments/environment';
-import { catchError, map, Observable, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EmpresaService {
 
-  private url : string = environment.url.base + '/seguridad';
+  //private readonly url : string = environment.url.base + '/seguridad';
 
-  constructor(private http: HttpClient, 
-              private authService: AuthService) { }
+  constructor(private readonly http: HttpClient, 
+              private readonly authService: AuthService) { }
 
-  getempresas(user: string):  Observable<any> {
+  /*getempresas(user: string):  Observable<any> {
     const params = [
       `usuario=${user}`,
     ].filter(Boolean).join('&');
@@ -54,5 +52,5 @@ export class EmpresaService {
           return throwError(() => e);
       })
     );
-  }
+  }*/
 }

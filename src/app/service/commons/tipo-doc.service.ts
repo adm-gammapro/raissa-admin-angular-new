@@ -8,10 +8,10 @@ import { AuthService } from '../authorization/auth.service';
   providedIn: 'root'
 })
 export class TipoDocService {
-  private url:string = environment.url.base + '/extranet/general';
+  private readonly url:string = environment.url.base + '/plataforma/general';
 
-  constructor(private http: HttpClient, 
-              private authService: AuthService) { }
+  constructor(private readonly http: HttpClient, 
+              private readonly authService: AuthService) { }
 
   getAllTipoDocumentos():  Observable<any> {
     const params = [
@@ -21,11 +21,11 @@ export class TipoDocService {
     const headers = new HttpHeaders({
     });
 
-    const url = `${this.url}/listarTipoDocumento?${params}`;
+    const url = `${this.url}/list-TipoDocumento?${params}`;
 
     return this.http.get(url, { headers: headers }).pipe(
       map((response: any) => {          
-        return response.body;
+        return response;
       }),
       catchError(e => {
           this.authService.isNoAutorizado(e);

@@ -6,10 +6,7 @@ import { Pageable } from '../../apis/interfaces/commons/pageable';
   providedIn: 'root'
 })
 export class HttpRequestHandlerService {
-
   constructor() { }
-
-  
 }
 
 /**
@@ -24,7 +21,10 @@ export function buildPageableParams(pageable?: Pageable): HttpParams {
   if(pageable) {
     params = pageable.page ? params?.set('page', pageable.page.toString()) : params;
     params = pageable.size ? params?.set('size', pageable.size.toString()) : params;
-    params = pageable.sort ? params?.set('sort', `${pageable.sort.property}${pageable.sort.direction ? ',' : ''}${pageable.sort.direction ?? ''}`) : params;
+    if (pageable.sort) {
+      const sortValue = `${pageable.sort.property}${pageable.sort.direction ? ',' : ''}${pageable.sort.direction ?? ''}`;
+      params = params.set('sort', sortValue); 
+    }
   }
 
   return params;

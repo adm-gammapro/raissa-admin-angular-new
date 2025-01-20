@@ -3,10 +3,10 @@ import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { PRIME_NG_MODULES } from '../../../../config/primeNg/primeng-global-imports';
-import { MenuUsuario } from '../../../../apis/model/module/private/menu-usuario';
+import { MenuUsuario } from '../../../../apis/model/module/private/administrativo/opcion/response/menu-usuario';
 import { environment } from '../../../../../environments/environment';
 import { Modulo } from '../../../../apis/model/module/private/modulo';
-import { Menu } from '../../../../apis/model/module/private/menu';
+import { Menu } from '../../../../apis/model/module/private/administrativo/opcion/response/menu';
 import { MenuService } from '../../../../service/modules/private/administrativo/menu.service';
 
 @Component({

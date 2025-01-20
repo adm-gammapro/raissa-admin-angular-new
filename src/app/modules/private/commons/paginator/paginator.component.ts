@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, CUSTOM_ELEMENTS_SCHEMA, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { PRIME_NG_MODULES } from '../../../../config/primeNg/primeng-global-imports';
-import { Paginator } from '../../../../apis/model/commons/paginator';
+import { Paginator } from '../../../../apis/model/module/private/commons/response/paginator';
 import { PaginatorState } from 'primeng/paginator';
 
 @Component({

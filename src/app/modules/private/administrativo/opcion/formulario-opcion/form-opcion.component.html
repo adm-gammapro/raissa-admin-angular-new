@@ -1,0 +1,80 @@
+<app-header></app-header>
+<p-toast />
+<p-confirmDialog/>
+<form [formGroup]="opcionForm">
+    <p-panel>
+        <div class="card flex justify-center">
+            <p-breadcrumb class="max-w-full" [model]="items" [home]="home" />
+        </div>
+
+        <div class="flex bg-gray-100">
+
+            <div class="w-full flex align-items-center justify-content-center">
+                <div class="formgrid grid w-full">
+                    <div>
+                        <input type="hidden" formControlName="codigo" id="codigo">
+                    </div>
+                    <div class="field col-12 md:col-4">
+                        <label for="descripcionOpcion" class="pl-1">Descripción opción
+                            <span *ngIf="isFieldRequired('descripcionOpcion')" style="color: red;">*</span>
+                        </label>
+                        <input id="descripcionOpcion" 
+                            type="text"
+                            pInputText
+                            maxlength="100"
+                            (input)="filterAlphanumeric($event)"
+                            formControlName="descripcionOpcion"
+                            [ngClass]="(opcionForm.get('descripcionOpcion')?.invalid && (opcionForm.get('descripcionOpcion')?.touched || opcionForm.get('descripcionOpcion')?.dirty)) ? 'ng-invalid ng-dirty w-full' : 'w-full'">
+                        <div *ngIf="opcionForm.get('descripcionOpcion')?.errors?.['required'] && opcionForm.get('descripcionOpcion')?.touched" class="p-error">
+                            <p-message severity="error" variant="simple" size="small">El campo es requerido</p-message>
+                        </div>
+                        <div *ngIf="opcionForm.get('descripcionOpcion')?.errors?.['maxlength'] && opcionForm.get('descripcionOpcion')?.touched" class="p-error">
+                            <p-message severity="error" variant="simple" size="small">Ha excedido el número máximo de caracteres permitidos</p-message>
+                        </div>
+                    </div>
+                    <div class="field col-12 md:col-4">
+                        <label for="seleccionable" class="pl-1">Seleccionable
+                            <span *ngIf="isFieldRequired('seleccionable')" style="color: red;">*</span>
+                        </label>
+                        <p-select formControlName="seleccionable"
+                                inputId="seleccionable"
+                                [options]="opcionesSeleccionable"
+                                optionLabel="label"
+                                optionValue="value"
+                                placeholder="Seleccione opción"
+                                [ngClass]="(opcionForm.get('seleccionable')?.invalid && (opcionForm.get('seleccionable')?.touched || opcionForm.get('seleccionable')?.dirty)) ? 'ng-invalid ng-dirty w-full' : 'w-full'">
+                        </p-select>
+                        <div *ngIf="opcionForm.get('seleccionable')?.errors?.['required'] && opcionForm.get('seleccionable')?.touched" class="p-error">
+                            <p-message severity="error" variant="simple" size="small">El campo es requerido</p-message>
+                        </div>
+                    </div>
+                    
+                    <div class="field col-12 md:col-4">
+                        
+                    </div>
+                    <div class="field col-12 md:col-5"></div>
+                    <div class="field col-12 md:col-1">
+                        <p-button label="Guardar" 
+                                pTooltip="Guardar" 
+                                variant="outlined"
+                                severity="info" 
+                                (onClick)="guardar();"
+                                [styleClass]="'w-full'"/>
+                    </div>
+                    <div class="field col-12 md:col-1">
+                        <p-button label="Volver" 
+                                pTooltip="Volver" 
+                                variant="outlined" 
+                                severity="contrast" 
+                                (onClick)="navigateToFormEntorno()"
+                                [styleClass]="'w-full'"/>
+                    </div>
+                    <div class="field col-12 md:col-5"></div>
+                </div>
+            </div>
+
+        </div>
+    </p-panel>
+
+    
+</form>
