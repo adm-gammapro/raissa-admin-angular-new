@@ -4,21 +4,21 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { TokenService } from './token.service';
 import { Router } from '@angular/router';
 import { catchError, map, Observable, throwError } from 'rxjs';
-import { Usuario } from '../../apis/model/module/private/usuario';
+import { UsuarioResponse } from '../../apis/model/module/private/administrativo/usuario/response/usuario-response';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   public _token?: string | null;
-  private token_url = environment.security.token_url;
-  private _usuario: Usuario = new Usuario();
+  private readonly token_url = environment.security.token_url;
+  private _usuario: UsuarioResponse = new UsuarioResponse();
 
-  private httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
+  private readonly httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-  constructor(private httpClient: HttpClient, 
-              private tokenService: TokenService,
-              private router: Router) { }
+  constructor(private readonly httpClient: HttpClient, 
+              private readonly tokenService: TokenService,
+              private readonly router: Router) { }
 
   public getToken(code: string, code_verifier: string): Observable<any> {
     let body = new URLSearchParams();
@@ -39,15 +39,13 @@ export class AuthService {
   }
 
   public token(): string | null {
-    if (this._token != null && this._token !="") {
+    if (this._token != null && this._token != "") {
       return this._token;
-    } else {
-      if(typeof window !== 'undefined'  && typeof window.sessionStorage !== 'undefined'){
-        if ((this._token == null) && (sessionStorage.getItem(environment.session.ACCESS_TOKEN) != null && sessionStorage.getItem(environment.session.ACCESS_TOKEN) != undefined)) {
-          if (sessionStorage.getItem(environment.session.ACCESS_TOKEN) != undefined) {
-            this._token = sessionStorage.getItem(environment.session.ACCESS_TOKEN);
-            return this._token;
-          }
+    } else if (typeof window !== 'undefined' && typeof window.sessionStorage !== 'undefined') {
+      if ((this._token == null) && (sessionStorage.getItem(environment.session.ACCESS_TOKEN) != null && sessionStorage.getItem(environment.session.ACCESS_TOKEN) != undefined)) {
+        if (sessionStorage.getItem(environment.session.ACCESS_TOKEN) != undefined) {
+          this._token = sessionStorage.getItem(environment.session.ACCESS_TOKEN);
+          return this._token;
         }
       }
     }
@@ -69,7 +67,7 @@ export class AuthService {
     return this.httpHeaders;
   }
 
-  public isNoAutorizado(e: any): boolean | any {
+  public isNoAutorizado(e: any): boolean {
     if (e.status == 401) {
       if (this.getToken != null) {
         this.logout();
@@ -92,13 +90,13 @@ export class AuthService {
     sessionStorage.setItem(environment.session.USERNAME, usuario);
 
     this.getUsuario(payload.username).subscribe(response => {
-      this._usuario = response as Usuario;
+      this._usuario = response;
       sessionStorage.setItem(environment.session.ID_USUARIO_SESSION, this._usuario.id.toString());
       sessionStorage.setItem(environment.session.NOMBRES_USUARIO, this._usuario.nombres);
     });
   }
 
-  public getUsuario(username: string):  Observable<Usuario> {
+  public getUsuario(username: string):  Observable<UsuarioResponse> {
     const params = [
       `username=${username}`,
     ].filter(Boolean).join('&');

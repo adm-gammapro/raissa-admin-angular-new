@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, Observable, throwError } from 'rxjs';
 import { environment } from '../../../../../../environments/environment';
 import { AuthService } from '../../../../authorization/auth.service';
@@ -7,12 +7,16 @@ import { PerfilSearch } from '../../../../../apis/model/module/private/administr
 import { buildPageableParams } from '../../../../commons/http-request-handler.service';
 import { PerfilResponse } from '../../../../../apis/model/module/private/administrativo/perfil/response/perfil-response';
 import { PerfilRequest } from '../../../../../apis/model/module/private/administrativo/perfil/request/perfil-request';
+import { PerfilOpcionSearch } from '../../../../../apis/model/module/private/administrativo/perfil/request/perfil-opcion-search';
+import { PerfilOpcionResponse } from '../../../../../apis/model/module/private/administrativo/perfil/response/perfil-opcion-response';
+import { PerfilOpcionRequest } from '../../../../../apis/model/module/private/administrativo/perfil/request/perfil-opcion-request';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PerfilService {
   private readonly urlPerfil: string = environment.url.base + '/perfil';
+  private readonly urlPerfilOpcion: string = environment.url.base + '/perfil-opcion';
 
   constructor(private readonly http: HttpClient,
               private readonly authService: AuthService) { }
@@ -38,9 +42,13 @@ export class PerfilService {
       }
     };
 
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+
     const url = `${this.urlPerfil}/list-page-perfil`;
 
-    return this.http.post<any>(url, perfilSearch, { params: buildPageableParams(pageable) }).pipe(
+    return this.http.post<any>(url, perfilSearch, { headers: headers, params: buildPageableParams(pageable) }).pipe(
       map((response: any) => response),
       catchError(e => {
         this.authService.isNoAutorizado(e);
@@ -135,20 +143,26 @@ export class PerfilService {
     );
   }*/
 
-  /*getPerfilModulos(idPerfil: number): Observable<any> {
-    const params = [
-      `idPerfil=${idPerfil}`,
-    ].filter(Boolean).join('&');
+  getPerfilOpcion(codigoPerfil: number): Observable<any> {
+    let perfilOpcion: PerfilOpcionSearch = new PerfilOpcionSearch();
+    perfilOpcion.codigoPerfil = codigoPerfil;
 
-    const headers = new HttpHeaders({
-    });
+    const url = `${this.urlPerfilOpcion}/list-opciones-perfil?`;
 
-    const url = `${this.urlPerfil}/listarPerfilModulos?${params}`;
+    return this.http.post<any>(url, perfilOpcion).pipe(
+      map((response: any) => response as PerfilOpcionResponse),
+      catchError(e => {
+        this.authService.isNoAutorizado(e);
+        return throwError(() => e);
+      })
+    );
+  }
+  
+  vincularOpciones(perfilOpcion: PerfilOpcionRequest): Observable<PerfilOpcionResponse> {
 
-    return this.http.get(url, { headers: headers }).pipe(
-      map((response: any) => {
-        return response.body;
-      }),
+    const url = `${this.urlPerfilOpcion}/vincular-perfil-opcion`;
+
+    return this.http.post<any>(url, perfilOpcion).pipe(
       catchError(e => {
         this.authService.isNoAutorizado(e);
         return throwError(() => e);
@@ -156,7 +170,19 @@ export class PerfilService {
     );
   }
 
-  getPerfilMenus(idPerfil: number): Observable<any> {
+  desvincularOpciones(perfilOpcion: PerfilOpcionRequest): Observable<PerfilOpcionResponse> {
+
+    const url = `${this.urlPerfilOpcion}/desvincular-perfil-opcion`;
+
+    return this.http.post<any>(url, perfilOpcion).pipe(
+      catchError(e => {
+        this.authService.isNoAutorizado(e);
+        return throwError(() => e);
+      })
+    );
+  }
+
+  /*getPerfilMenus(idPerfil: number): Observable<any> {
     const params = [
       `idPerfil=${idPerfil}`,
     ].filter(Boolean).join('&');

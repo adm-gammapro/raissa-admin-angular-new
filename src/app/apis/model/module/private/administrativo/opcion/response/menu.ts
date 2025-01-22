@@ -1,4 +1,4 @@
-import { Modulo } from "../../../modulo";
+import { Modulo } from "../../modulo/response/modulo";
 
 export class Menu {
     codigo: number;

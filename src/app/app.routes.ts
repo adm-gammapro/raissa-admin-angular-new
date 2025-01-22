@@ -21,6 +21,8 @@ import { ServicioAplicacionComponent } from './modules/private/operativo/servici
 import { FormServicioAplicacionComponent } from './modules/private/operativo/servicio/servicio-aplicacion/formulario-servicio-aplicacion/form-servicio-aplicacion.component';
 import { PerfilComponent } from './modules/private/administrativo/perfil/perfil.component';
 import { FormPerfilComponent } from './modules/private/administrativo/perfil/formulario-perfil/form-perfil.component';
+import { ClienteAplicacionEntornoComponent } from './modules/private/administrativo/cliente/cliente-aplicacion-entorno/cliente-aplicacion-entorno.component';
+import { FormClienteAplicacionEntornoComponent } from './modules/private/administrativo/cliente/cliente-aplicacion-entorno/formulario-cliente-aplicacion-entorno/form-cliente-aplicacion-entorno.component';
 
 export const routes: Routes = [
     { path: '', component: ContentComponent },
@@ -64,4 +66,7 @@ export const routes: Routes = [
     { path: 'servicio', component: ServicioAplicacionComponent },
     { path: 'servicio/:pagina/:cantReg/:estadoSearch', component: ServicioAplicacionComponent },
     { path: 'form-servicio', component: FormServicioAplicacionComponent },
+
+    { path: 'cliente-aplicacion-entorno/:codigoCliente', component: ClienteAplicacionEntornoComponent },
+    { path: 'form-cliente-aplicacion-entorno', component: FormClienteAplicacionEntornoComponent }
 ];

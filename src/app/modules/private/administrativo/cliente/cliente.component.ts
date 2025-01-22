@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -13,6 +13,8 @@ import { Paginator } from '../../../../apis/model/module/private/commons/respons
 import { MessagesService } from '../../../../service/commons/messages.service';
 import { ClienteService } from '../../../../service/modules/private/administrativo/cliente/cliente.service';
 import { EstadoRegistroEnum } from '../../../../apis/model/enums/estado-registro';
+import { ClienteInstitucionFinancieraComponent } from './cliente-institucion-financiera/cliente-institucion-financiera.component';
+import { ClienteProveedorComponent } from './cliente-proveedor/cliente-proveedor.component';
 
 @Component({
   selector: 'app-cliente',
@@ -22,12 +24,19 @@ import { EstadoRegistroEnum } from '../../../../apis/model/enums/estado-registro
                     ...PRIME_NG_MODULES,
                     PaginatorComponent,
                     HeaderComponent,
-                    EstadoRegistroLabelPipe],
+                    EstadoRegistroLabelPipe,
+                    ClienteInstitucionFinancieraComponent,
+                    ClienteProveedorComponent],
           providers: [ConfirmationService, MessageService],
   templateUrl: './cliente.component.html',
   styleUrl: './cliente.component.scss'
 })
 export class ClienteComponent implements OnInit {
+  @ViewChild(ClienteInstitucionFinancieraComponent) clienteInstitucionFinancieraComponent!: ClienteInstitucionFinancieraComponent;
+  protected mostrarClienteInstitucionFinanciera = false;
+  @ViewChild(ClienteProveedorComponent) clienteProveedorComponent!: ClienteProveedorComponent;
+  protected mostrarClienteProveedor = false;
+
   items: MenuItem[] | undefined;
   home: MenuItem | undefined;
 
@@ -155,6 +164,33 @@ export class ClienteComponent implements OnInit {
     this.router.navigateByUrl('/content', { skipLocationChange: true }).then(() => {
       this.router.navigate(['/cliente']);
     });
+  }
+
+  //Muestra relacion cliente aplicacion entorno
+  mostrarVinculoClienteAplicacionEntorno(id: number | null) {
+    this.router.navigate(['/cliente-aplicacion-entorno', id]);
+  }
+
+  //Modal para vincular institucion financiera con un cliente
+  mostrarModalClienteInstitucionFinanciera(codigoCliente: number): void {
+    this.clienteInstitucionFinancieraComponent.cargarModelo(codigoCliente);
+    this.mostrarClienteInstitucionFinanciera = true; // Mostrar el componente hijo (modal)
+  }
+
+  cerrarModalClienteInstitucionFinanciera(): void {
+    this.mostrarClienteInstitucionFinanciera = false; // Cerrar el componente hijo
+    this.loadMessages();
+  }
+
+  //Modal para vincular proveedor con un cliente
+  mostrarModalClienteProveedor(codigoCliente: number): void {
+    this.clienteProveedorComponent.cargarModelo(codigoCliente);
+    this.mostrarClienteProveedor = true; // Mostrar el componente hijo (modal)
+  }
+
+  cerrarModalClienteProveedor(): void {
+    this.mostrarClienteProveedor = false; // Cerrar el componente hijo
+    this.loadMessages();
   }
 
   private loadClientes(): void {

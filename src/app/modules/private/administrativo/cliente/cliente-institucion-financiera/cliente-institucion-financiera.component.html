@@ -6,18 +6,18 @@
             <!-- Encabezado de Entornos no asignados -->
             <div class="field col-12 md:col-1"></div>
             <div class="field col-12 md:col-4">
-                <h4>Opciones no asignados</h4>
+                <h4>Bancos no asignados</h4>
             </div>
             <div class="field col-12 md:col-2"></div>
             <!-- Encabezado de Entornos asignados -->
             <div class="field col-12 md:col-4">
-                <h4>Opciones asignados</h4>
+                <h4>Bancos asignados</h4>
             </div>
             <div class="field col-12 md:col-1"></div>
         </div>
             <!-- Picklist -->
-            <p-picklist [source]="opcionesNoAsignados" 
-                        [target]="opcionesAsignados" 
+            <p-picklist [source]="institucionesNoAsignados" 
+                        [target]="institucionesAsignados" 
                         [responsive]="true"
                         [sourceStyle]="{ height: '30rem' }" 
                         [targetStyle]="{ height: '30rem' }" 
@@ -25,18 +25,16 @@
                         [showTargetControls]="false"
                         breakpoint="1000px">
                 <!-- Plantilla personalizada -->
-                <ng-template let-opcion pTemplate="item">
+                <ng-template let-institucion pTemplate="item">
                     <div class="flex flex-wrap p-2 align-items-center gap-3">
                         <div class="flex-1 flex flex-column gap-2">
                             <span class="font-bold">
-                                {{ opcion.descripcionOpcion }}
+                                {{ institucion.nombre }}
                             </span>
                         </div>
                     </div>
                 </ng-template>
             </p-picklist>
-
-            
         </div>
     </div>
 </div>

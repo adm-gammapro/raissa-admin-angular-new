@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -13,6 +13,7 @@ import { Util } from '../../../../utils/util/util.util';
 import { MessagesService } from '../../../../service/commons/messages.service';
 import { PerfilService } from '../../../../service/modules/private/administrativo/perfil/perfil.service';
 import { EstadoRegistroEnum } from '../../../../apis/model/enums/estado-registro';
+import { PerfilOpcionComponent } from './perfil-opcion/perfil-opcion.component';
 
 @Component({
   selector: 'app-perfil',
@@ -22,12 +23,15 @@ import { EstadoRegistroEnum } from '../../../../apis/model/enums/estado-registro
                 ...PRIME_NG_MODULES,
                 PaginatorComponent,
                 HeaderComponent,
-                EstadoRegistroLabelPipe],
+                EstadoRegistroLabelPipe,
+                PerfilOpcionComponent],
       providers: [ConfirmationService, MessageService],
   templateUrl: './perfil.component.html',
   styleUrl: './perfil.component.scss'
 })
 export class PerfilComponent implements OnInit {
+  @ViewChild(PerfilOpcionComponent) perfilOpcionComponent!: PerfilOpcionComponent;
+  protected mostrarPerfilOpcion = false;
   items: MenuItem[] | undefined;
   home: MenuItem | undefined;
   public perfiles: PerfilResponse[] = [];
@@ -154,6 +158,16 @@ export class PerfilComponent implements OnInit {
     this.router.navigateByUrl('/content', { skipLocationChange: true }).then(() => {
       this.router.navigate(['/perfil']);
     });
+  }
+
+  mostrarModal(codigoPerfil: number): void {
+    this.perfilOpcionComponent.cargarModelo(codigoPerfil);
+    this.mostrarPerfilOpcion = true; // Mostrar el componente hijo (modal)
+  }
+
+  cerrarModal(): void {
+    this.mostrarPerfilOpcion = false; // Cerrar el componente hijo
+    this.loadMessages();
   }
   
   private loadperfiles(): void {

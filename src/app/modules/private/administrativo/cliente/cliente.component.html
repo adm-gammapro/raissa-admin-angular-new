@@ -87,6 +87,39 @@
                                 <td>{{cliente.tipoCliente.descripcion}}</td>
                                 <td>{{cliente.estadoRegistro | estadoRegistroLabel }}</td>
                                 <td style="text-align: center;">
+                                    <p-button icon="pi pi-arrow-right-arrow-left" 
+                                            [rounded]="true" 
+                                            [text]="true" 
+                                            type="button" 
+                                            pRipple
+                                            severity="secondary" 
+                                            pTooltip="Vincular cliente aplicacion entorno" 
+                                            tooltipPosition="top"
+                                            [disabled]="esBotonDeshabilitado(cliente)" 
+                                            (onClick)="mostrarVinculoClienteAplicacionEntorno(cliente.codigo)" />
+
+                                    <p-button icon="pi pi-building" 
+                                            [rounded]="true" 
+                                            [text]="true" 
+                                            type="button" 
+                                            pRipple
+                                            severity="secondary" 
+                                            pTooltip="Vincular proveedores" 
+                                            tooltipPosition="top"
+                                            [disabled]="esBotonDeshabilitado(cliente)" 
+                                            (onClick)="mostrarModalClienteProveedor(cliente.codigo)" />
+
+                                    <p-button icon="pi pi-money-bill" 
+                                            [rounded]="true" 
+                                            [text]="true" 
+                                            type="button" 
+                                            pRipple
+                                            severity="secondary" 
+                                            pTooltip="Vincular instituciones financieras" 
+                                            tooltipPosition="top"
+                                            [disabled]="esBotonDeshabilitado(cliente)" 
+                                            (onClick)="mostrarModalClienteInstitucionFinanciera(cliente.codigo)" />
+
                                     <p-button icon="pi pi-file-edit" 
                                             [rounded]="true" 
                                             [text]="true" 
@@ -117,3 +150,15 @@
             <app-paginator *ngIf="paginator" [paginatorInput] = "paginator" (paginatorOutput)="cambioPagina($event)"></app-paginator>
         </p-panel>
     </form>
+
+    <p-dialog [modal]="true" [(visible)]="mostrarClienteInstitucionFinanciera" [style]="{ width: '50rem'}">
+        <app-cliente-institucion-financiera (cerrarModal)="cerrarModalClienteInstitucionFinanciera()"></app-cliente-institucion-financiera>
+        <div class="flex justify-content-end gap-2">
+        </div>
+    </p-dialog>
+
+    <p-dialog [modal]="true" [(visible)]="mostrarClienteProveedor" [style]="{ width: '50rem'}">
+        <app-cliente-proveedor (cerrarModal)="cerrarModalClienteProveedor()"></app-cliente-proveedor>
+        <div class="flex justify-content-end gap-2">
+        </div>
+    </p-dialog>

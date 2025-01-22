@@ -8,7 +8,7 @@ import { HeaderComponent } from '../../../layout/header/header.component';
 import { PRIME_NG_MODULES } from '../../../../../config/primeNg/primeng-global-imports';
 import { ClienteRequest } from '../../../../../apis/model/module/private/administrativo/cliente/request/cliente-request';
 import { ClienteResponse } from '../../../../../apis/model/module/private/administrativo/cliente/response/cliente-response';
-import { TipoClienteResponse } from '../../../../../apis/model/module/private/administrativo/cliente/response/tipo-cliente-response';
+import { TipoClienteResponse } from '../../../../../apis/model/module/private/commons/response/tipo-cliente-response';
 import { ClienteService } from '../../../../../service/modules/private/administrativo/cliente/cliente.service';
 import { MessagesService } from '../../../../../service/commons/messages.service';
 import { TipoClienteService } from '../../../../../service/commons/tipo-cliente.service';

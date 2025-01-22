@@ -1,5 +1,5 @@
 import { EstadoRegistroEnum } from "../../../../../enums/estado-registro";
-import { TipoClienteResponse } from "./tipo-cliente-response";
+import { TipoClienteResponse } from "../../../commons/response/tipo-cliente-response";
 
 export class ClienteResponse {
     codigo!: number;

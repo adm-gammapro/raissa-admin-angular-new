@@ -1,4 +1,4 @@
-import { Modulo } from "../../../modulo";
+import { Modulo } from "../../modulo/response/modulo";
 import { Menu } from "./menu";
 
 export class MenuUsuario {

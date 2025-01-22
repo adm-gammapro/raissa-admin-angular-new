@@ -1,0 +1,95 @@
+<app-header></app-header>
+<p-toast />
+<p-confirmdialog />
+    <form>
+        <p-panel>
+            <div class="card flex justify-center">
+                <p-breadcrumb class="max-w-full" [model]="items" [home]="home" />
+            </div>
+            <div class="flex border-round bg-gray-100 m-1 border-300">
+                <div class="w-12 flex align-items-center justify-content-center">
+                    <div class="formgrid grid w-12 flex  pt-5">
+                        <div class="field col-12 md:col-10">
+                        </div>
+                        <div class="field col-12 md:col-1 text-right">
+                            <p-button label="Agregar" 
+                                    pTooltip="Agregar" 
+                                    [outlined]="true" 
+                                    severity="secondary" 
+                                    (onClick)="navigateToFormClienteAplicacionEntorno()"
+                                    styleClass="w-full"/>
+                        </div>
+                        <div class="field col-12 md:col-1 text-right">
+                            <p-button label="Volver" 
+                                    pTooltip="Volver" 
+                                    [outlined]="true" 
+                                    severity="secondary" 
+                                    (onClick)="volver();"
+                                    styleClass="w-full"/>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+            </div>
+            <div class="flex border-round p-1 m-1 border-300">
+                <div class="w-12 p-1 flex align-items-center justify-content-center">
+                    <p-table
+                        [value]="clienteAplicacionEntornos"
+                        selectionMode="single" 
+                        class="w-full"
+                        [styleClass]="'p-datatable-sm'">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th id="cliente" style="width:10%">cliente</th>
+                                <th id="aplicacion" style="width:10%">Aplicación</th>
+                                <th id="entorno" style="width:10%">Entorno</th>
+                                <th id="apikey" style="width:40%">Api key</th>
+                                <th id="estado" style="width:15%">Estado</th>
+                                <th id="acciones" style="width:15%; text-align: center;">Acciones</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-clienteAplicacionEntorno>
+                            <tr>
+                                <td>{{clienteAplicacionEntorno.cliente.razonSocial}}</td>
+                                <td>{{clienteAplicacionEntorno.aplicacionEntorno.aplicacion.descripcion}}</td>
+                                <td>{{clienteAplicacionEntorno.aplicacionEntorno.entorno.descripcion}}</td>
+                                <td>{{clienteAplicacionEntorno.apiKey}}</td>
+                                <td>{{clienteAplicacionEntorno.estadoRegistro | estadoRegistroLabel }}</td>
+                                <td style="text-align: center;">
+                                    <p-button icon="pi pi-microchip" 
+                                            [rounded]="true" 
+                                            [text]="true" 
+                                            type="button" 
+                                            pRipple
+                                            severity="secondary"
+                                            pTooltip="Vincular Servicio" 
+                                            tooltipPosition="top" 
+                                            [disabled]="esBotonDeshabilitado(clienteAplicacionEntorno)" 
+                                            (onClick)="mostrarVinculoClienteAplicacionEntornoServicio(clienteAplicacionEntorno.codigo)"/>
+                                    <p-button icon="pi pi-trash" 
+                                            [rounded]="true" 
+                                            [text]="true" 
+                                            type="button" 
+                                            pRipple
+                                            severity="secondary"
+                                            pTooltip="Dar de baja" 
+                                            tooltipPosition="left"
+                                            [disabled]="esBotonDeshabilitado(clienteAplicacionEntorno)" 
+                                            (onClick)="eliminarFila($event, clienteAplicacionEntorno)"/>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                    
+                </div> 
+            </div>
+            <app-paginator *ngIf="paginator" [paginatorInput] = "paginator" (paginatorOutput)="cambioPagina($event)"></app-paginator>
+        </p-panel>
+    </form>
+
+    <p-dialog [modal]="true" [(visible)]="mostrarClienteAplicacionEntornoServicio" [style]="{ width: '50rem'}">
+        <app-cliente-servicio (cerrarModal)="cerrarModalClienteAplicacionEntornoServicio()"></app-cliente-servicio>
+        <div class="flex justify-content-end gap-2">
+        </div>
+    </p-dialog>

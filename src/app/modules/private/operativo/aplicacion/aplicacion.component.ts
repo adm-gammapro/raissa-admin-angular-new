@@ -23,8 +23,9 @@ import { AplicacionEntornoComponent } from "./aplicacion-entorno/aplicacion-ento
     ...PRIME_NG_MODULES,
     PaginatorComponent,
     HeaderComponent,
-    EstadoRegistroLabelPipe, AplicacionEntornoComponent],
-    providers: [ConfirmationService, MessageService, AplicacionService],
+    EstadoRegistroLabelPipe, 
+    AplicacionEntornoComponent],
+    providers: [ConfirmationService, MessageService],
   templateUrl: './aplicacion.component.html',
   styleUrl: './aplicacion.component.scss'
 })

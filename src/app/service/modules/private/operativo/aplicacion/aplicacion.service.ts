@@ -7,9 +7,9 @@ import { buildPageableParams } from '../../../../commons/http-request-handler.se
 import { AplicacionSearch } from '../../../../../apis/model/module/private/operativo/aplicacion/request/aplicacion-search';
 import { AplicacionRequest } from '../../../../../apis/model/module/private/operativo/aplicacion/request/aplicacion-request';
 import { AplicacionResponse } from '../../../../../apis/model/module/private/operativo/aplicacion/response/aplicacion.response';
-import { AplicacionEntornoSearch } from '../../../../../apis/model/module/private/operativo/aplicacion/response/aplicacion-entorno-search';
 import { AplicacionEntornoResponse } from '../../../../../apis/model/module/private/operativo/aplicacion/response/aplicacion-entorno-response';
 import { AplicacionEntornoRequest } from '../../../../../apis/model/module/private/operativo/aplicacion/request/aplicacion-entorno-request';
+import { AplicacionEntornoSearch } from '../../../../../apis/model/module/private/operativo/aplicacion/request/aplicacion-entorno-search';
 
 @Injectable({
   providedIn: 'root'
@@ -156,6 +156,21 @@ private readonly urlAplicacionEntorno = environment.url.base + '/aplicacion-ento
     const url = `${this.urlAplicacionEntorno}/desvincular-aplicacion-entorno`;
 
     return this.http.post<any>(url, aplicacionEntorno).pipe(
+      catchError(e => {
+        this.authService.isNoAutorizado(e);
+        return throwError(() => e);
+      })
+    );
+  }
+
+  getAplicacionesDisponibles(): Observable<AplicacionResponse[]> {
+
+    const url = `${this.urlAplicacion}/get-aplicacion-disponible`;
+
+    return this.http.get(url).pipe(
+      map((response: any) => {
+        return response;
+      }),
       catchError(e => {
         this.authService.isNoAutorizado(e);
         return throwError(() => e);

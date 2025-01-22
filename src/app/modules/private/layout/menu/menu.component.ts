@@ -5,9 +5,9 @@ import { MenuItem } from 'primeng/api';
 import { PRIME_NG_MODULES } from '../../../../config/primeNg/primeng-global-imports';
 import { MenuUsuario } from '../../../../apis/model/module/private/administrativo/opcion/response/menu-usuario';
 import { environment } from '../../../../../environments/environment';
-import { Modulo } from '../../../../apis/model/module/private/modulo';
+import { Modulo } from '../../../../apis/model/module/private/administrativo/modulo/response/modulo';
 import { Menu } from '../../../../apis/model/module/private/administrativo/opcion/response/menu';
-import { MenuService } from '../../../../service/modules/private/administrativo/menu.service';
+import { MenuService } from '../../../../service/modules/private/administrativo/usuario/menu.service';
 
 @Component({
   selector: 'app-menu',
