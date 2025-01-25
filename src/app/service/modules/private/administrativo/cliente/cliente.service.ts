@@ -318,4 +318,22 @@ export class ClienteService {
       })
     );
   }
+
+  getClienteVinculado(codigoCliente: number): Observable<ClienteResponse[]> {
+    const params = [
+      `codigoCliente=${codigoCliente}`,
+    ].filter(Boolean).join('&');
+
+    const url = `${this.url}/get-cliente-vinculado?${params}`;
+
+    return this.http.get(url).pipe(
+      map((response: any) => {
+        return response;
+      }),
+      catchError(e => {
+        this.authService.isNoAutorizado(e);
+        return throwError(() => e);
+      })
+    );
+  }
 }

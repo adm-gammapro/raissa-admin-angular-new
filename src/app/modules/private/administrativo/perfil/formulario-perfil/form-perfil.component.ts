@@ -83,7 +83,7 @@ export class FormPerfilComponent {
                 this.messageService.add({ 
                   severity: 'error', 
                   summary: 'Error', 
-                  detail: err.error.message, 
+                  detail: Util.validaMensajeError(err),
                   life: 5000 
                 });
               }
@@ -98,7 +98,7 @@ export class FormPerfilComponent {
                 this.messageService.add({ 
                   severity: 'error', 
                   summary: 'Error', 
-                  detail: err.error.message, 
+                  detail: Util.validaMensajeError(err),
                   life: 5000 
                 });
               }

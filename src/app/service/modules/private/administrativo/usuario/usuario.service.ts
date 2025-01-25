@@ -7,6 +7,14 @@ import { UsuarioSearch } from '../../../../../apis/model/module/private/administ
 import { buildPageableParams } from '../../../../commons/http-request-handler.service';
 import { UsuarioRequest } from '../../../../../apis/model/module/private/administrativo/usuario/request/usuario-request';
 import { UsuarioResponse } from '../../../../../apis/model/module/private/administrativo/usuario/response/usuario-response';
+import { UsuarioPerfilRequest } from '../../../../../apis/model/module/private/administrativo/usuario/request/usuario-perfil-request';
+import { UsuarioPerfilSearch } from '../../../../../apis/model/module/private/administrativo/usuario/request/usuario-perfil-search';
+import { UsuarioPerfilResponse } from '../../../../../apis/model/module/private/administrativo/usuario/response/usuario-perfil-response';
+import { UsuarioClienteSearch } from '../../../../../apis/model/module/private/administrativo/usuario/request/usuario-cliente-search';
+import { UsuarioClienteRequest } from '../../../../../apis/model/module/private/administrativo/usuario/request/usuario-cliente-request';
+import { UsuarioClienteResponse } from '../../../../../apis/model/module/private/administrativo/usuario/response/usuario-cliente-response';
+import { ClienteResponse } from '../../../../../apis/model/module/private/administrativo/cliente/response/cliente-response';
+import { PerfilResponse } from '../../../../../apis/model/module/private/administrativo/perfil/response/perfil-response';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +22,8 @@ import { UsuarioResponse } from '../../../../../apis/model/module/private/admini
 export class UsuarioService {
 
   private readonly url: string = environment.url.base + '/usuario';
+  private readonly urlUsuarioPerfil: string = environment.url.base + '/usuario-perfil';
+  private readonly urlUsuarioCliente: string = environment.url.base + '/usuario-cliente';
 
   constructor(private readonly http: HttpClient,
     private readonly authService: AuthService) { }
@@ -108,21 +118,15 @@ export class UsuarioService {
     );
   }
 
-  /*getUsuariosEmpresas(idUsuario: number, idUsuarioSession: number): Observable<any> {
-    const params = [
-      `idUsuario=${idUsuario}`,
-      `idUsuarioSession=${idUsuarioSession}`,
-      `estadoRegistro=S`,
-    ].filter(Boolean).join('&');
+  getUsuarioPerfiles(idUsuario: number): Observable<UsuarioPerfilResponse> {
+    let usuarioPerfilSearch: UsuarioPerfilSearch = new UsuarioPerfilSearch();
+    usuarioPerfilSearch.codigoUsuario = idUsuario;
 
-    const headers = new HttpHeaders({
-    });
+    const url = `${this.urlUsuarioPerfil}/list-usuario-perfil`;
 
-    const url = `${this.urlSeguridad}/listarEmpresasUsuarioPage?${params}`;
-
-    return this.http.get(url, { headers: headers }).pipe(
+    return this.http.post(url, usuarioPerfilSearch).pipe(
       map((response: any) => {
-        return response.body;
+        return response;
       }),
       catchError(e => {
         this.authService.isNoAutorizado(e);
@@ -131,21 +135,11 @@ export class UsuarioService {
     );
   }
 
-  getUsuarioPerfiles(idUsuario: number, idEmpresa: string): Observable<any> {
-    const params = [
-      `idUsuario=${idUsuario}`,
-      `idEmpresa=${idEmpresa}`,
-    ].filter(Boolean).join('&');
+  vincularPerfil(vincularPerfiles: UsuarioPerfilRequest) {
 
-    const headers = new HttpHeaders({
-    });
+    const url = `${this.urlUsuarioPerfil}/vincular-usuario-perfil`;
 
-    const url = `${this.urlSeguridad}/listarUsuarioPerfil?${params}`;
-
-    return this.http.get(url, { headers: headers }).pipe(
-      map((response: any) => {
-        return response.body;
-      }),
+    return this.http.post<any>(url, vincularPerfiles).pipe(
       catchError(e => {
         this.authService.isNoAutorizado(e);
         return throwError(() => e);
@@ -153,18 +147,11 @@ export class UsuarioService {
     );
   }
 
-  public vincularEmpresa(idEmpresa: number, idUsuario: number) {
-    let usuarioCliente: UsuarioCliente = new UsuarioCliente();
-    usuarioCliente.codigoCliente = idEmpresa;
-    usuarioCliente.codigoUsuario = idUsuario;
+  desVincularPerfil(desvincularPerfiles: UsuarioPerfilRequest) {
 
-    const headers = new HttpHeaders({
-    });
+    const url = `${this.urlUsuarioPerfil}/desvincular-usuario-perfil`;
 
-    const url = `${this.urlSeguridad}/vincularEmpresas`;
-
-    return this.http.post<any>(url, usuarioCliente, { headers: headers }).pipe(
-      map((response: any) => response.body as Usuario),
+    return this.http.post<any>(url, desvincularPerfiles).pipe(
       catchError(e => {
         this.authService.isNoAutorizado(e);
         return throwError(() => e);
@@ -172,17 +159,69 @@ export class UsuarioService {
     );
   }
 
-  public desVincularEmpresa(idUsuarioCliente: number) {
-    let usuarioCliente: UsuarioCliente = new UsuarioCliente();
+  getUsuarioClientePerfilesPage(page: number,
+    idUsuario: number | undefined,
+    cantReg: number): Observable<any> {
+      
+    let usuarioClienteSearch: UsuarioClienteSearch = {
+      codigoUsuario: idUsuario ?? 0
+    };
+
+    const direction: 'ASC' | 'DESC' = 'ASC';
+    const pageable = {
+      page: page,
+      size: cantReg,
+      sort: {
+        property: "id",
+        direction: direction
+      }
+    };
+
+    const url = `${this.urlUsuarioCliente}/list-page-usuario-cliente`;
+
+    return this.http.post(url, usuarioClienteSearch, { params: buildPageableParams(pageable) }).pipe(
+      map((response: any) => response),
+      catchError(e => {
+        this.authService.isNoAutorizado(e);
+        return throwError(() => e);
+      })
+    );
+  }
+
+  
+
+  public createUsuarioClientePerfil(usuarioCliente: UsuarioClienteRequest): Observable<UsuarioClienteResponse> {
+    const url = `${this.urlUsuarioCliente}/create-usuario-cliente-perfil`;
+
+    return this.http.post<any>(url, usuarioCliente).pipe(
+      map((response: any) => response),
+      catchError(e => {
+        this.authService.isNoAutorizado(e);
+        return throwError(() => e);
+      })
+    );
+  }
+
+  public updateUsuarioClientePerfil(usuarioCliente: UsuarioClienteRequest): Observable<UsuarioClienteResponse> {
+    const url = `${this.urlUsuarioCliente}/update-usuario-cliente-perfil`;
+
+    return this.http.post<any>(url, usuarioCliente).pipe(
+      map((response: any) => response),
+      catchError(e => {
+        this.authService.isNoAutorizado(e);
+        return throwError(() => e);
+      })
+    );
+  }
+
+  public deleteUsuarioClientePerfil(idUsuarioCliente: number): Observable<UsuarioClienteResponse> {
+    let usuarioCliente: UsuarioClienteRequest = new UsuarioClienteRequest();
     usuarioCliente.codigo = idUsuarioCliente;
 
-    const headers = new HttpHeaders({
-    });
+    const url = `${this.urlUsuarioCliente}/delete-usuario-cliente-perfil`;
 
-    const url = `${this.urlSeguridad}/desvincularEmpresas`;
-
-    return this.http.post<any>(url, usuarioCliente, { headers: headers }).pipe(
-      map((response: any) => response.body as Usuario),
+    return this.http.post<any>(url, usuarioCliente).pipe(
+      map((response: any) => response),
       catchError(e => {
         this.authService.isNoAutorizado(e);
         return throwError(() => e);
@@ -190,7 +229,61 @@ export class UsuarioService {
     );
   }
 
-  public cambiarPassword(idUsuario: number, password: string) {
+  getUsuarioClientePerfil(codigoUsuarioClientePerfil: number): Observable<UsuarioClienteResponse> {
+    const params = [
+      `codigoUsuarioClientePerfil=${codigoUsuarioClientePerfil}`
+    ].filter(Boolean).join('&');
+
+    const url = `${this.urlUsuarioCliente}/get-usuario-cliente-perfil?${params}`;
+
+    return this.http.get(url).pipe(
+      map((response: any) => {
+        return response;
+      }),
+      catchError(e => {
+        this.authService.isNoAutorizado(e);
+        return throwError(() => e);
+      })
+    );
+  }
+
+  getClientesDisponibles(codigoUsuario: number): Observable<ClienteResponse[]> {
+    const params = [
+      `codigoUsuario=${codigoUsuario}`
+    ].filter(Boolean).join('&');
+
+    const url = `${this.urlUsuarioCliente}/get-clientes-disponibles?${params}`;
+
+    return this.http.get(url).pipe(
+      map((response: any) => {
+        return response;
+      }),
+      catchError(e => {
+        this.authService.isNoAutorizado(e);
+        return throwError(() => e);
+      })
+    );
+  }
+
+  getPerfilesDisponibles(codigoUsuario: number): Observable<PerfilResponse[]> {
+    const params = [
+      `codigoUsuario=${codigoUsuario}`
+    ].filter(Boolean).join('&');
+
+    const url = `${this.urlUsuarioCliente}/get-perfiles-disponibles?${params}`;
+
+    return this.http.get(url).pipe(
+      map((response: any) => {
+        return response;
+      }),
+      catchError(e => {
+        this.authService.isNoAutorizado(e);
+        return throwError(() => e);
+      })
+    );
+  }
+
+  /*public cambiarPassword(idUsuario: number, password: string) {
     let resetPassword: ResetPassword = new ResetPassword();
     resetPassword.id = idUsuario;
     resetPassword.password = password;
@@ -202,51 +295,6 @@ export class UsuarioService {
 
     return this.http.put<any>(url, resetPassword, { headers: headers }).pipe(
       map((response: any) => response.body as Usuario),
-      catchError(e => {
-        this.authService.isNoAutorizado(e);
-        return throwError(() => e);
-      })
-    );
-  }
-
-  public vincularPerfil(vincularPerfiles: PerfilRequest) {
-    const headers = new HttpHeaders({
-    });
-
-    const url = `${this.urlSeguridad}/vincular-usuario-perfil`;
-
-    return this.http.put<any>(url, vincularPerfiles, { headers: headers }).pipe(
-      map((response: any) => response.body as Usuario),
-      catchError(e => {
-        this.authService.isNoAutorizado(e);
-        return throwError(() => e);
-      })
-    );
-  }
-
-  public desVincularPerfil(desvincularPerfiles: PerfilRequest) {
-    const headers = new HttpHeaders({
-    });
-
-    const url = `${this.urlSeguridad}/desvincular-usuario-perfil`;
-
-    return this.http.put<any>(url, desvincularPerfiles, { headers: headers }).pipe(
-      map((response: any) => response.body as Usuario),
-      catchError(e => {
-        this.authService.isNoAutorizado(e);
-        return throwError(() => e);
-      })
-    );
-  }
-
-  public vincularEmpresaPerfil(usuarioCliente: UsuarioCliente) {
-    const headers = new HttpHeaders({
-    });
-
-    const url = `${this.urlSeguridad}/vincularEmpresas`;
-
-    return this.http.post<any>(url, usuarioCliente, { headers: headers }).pipe(
-      map((response: any) => response.body as UsuarioCliente),
       catchError(e => {
         this.authService.isNoAutorizado(e);
         return throwError(() => e);

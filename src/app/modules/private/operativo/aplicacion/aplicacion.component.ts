@@ -31,13 +31,13 @@ import { AplicacionEntornoComponent } from "./aplicacion-entorno/aplicacion-ento
 })
 export class AplicacionComponent implements OnInit {
   @ViewChild(AplicacionEntornoComponent) aplicacionEntornoComponent!: AplicacionEntornoComponent;
+  protected mostrarAplicacionEntorno = false;
   protected items: MenuItem[] | undefined;
   protected home: MenuItem | undefined;
 
   protected aplicaciones: AplicacionResponse[] = [];
   protected estadoSearch: string | undefined;
   protected aplicacionSearchForm: FormGroup;
-  protected mostrarAplicacionEntorno = false;
   protected estadoRegistroOptions = Util.getListEstadoRegistro();
 
   paginator: Paginator = new Paginator();//esta variable se debe declarar para usar el paginador de los apis, no de primeng

@@ -1,0 +1,54 @@
+<div class="grid">
+    <!-- Panel de listas -->
+    <div class="col-12">
+        <div class="p-picklist-container">
+            <div class="formgrid grid w-full">
+            <!-- Encabezado de Entornos no asignados -->
+            <div class="field col-12 md:col-1"></div>
+            <div class="field col-12 md:col-4">
+                <h4>Perfiles no asignados</h4>
+            </div>
+            <div class="field col-12 md:col-2"></div>
+            <!-- Encabezado de Entornos asignados -->
+            <div class="field col-12 md:col-4">
+                <h4>Perfiles asignados</h4>
+            </div>
+            <div class="field col-12 md:col-1"></div>
+        </div>
+            <!-- Picklist -->
+            <p-picklist [source]="perfilesNoAsignados" 
+                        [target]="perfilesAsignados" 
+                        [responsive]="true"
+                        [sourceStyle]="{ height: '30rem' }" 
+                        [targetStyle]="{ height: '30rem' }" 
+                        [showSourceControls]="false"
+                        [showTargetControls]="false"
+                        breakpoint="1000px">
+                <!-- Plantilla personalizada -->
+                <ng-template let-entorno pTemplate="item">
+                    <div class="flex flex-wrap p-2 align-items-center gap-3">
+                        <div class="flex-1 flex flex-column gap-2">
+                            <span class="font-bold">
+                                {{ entorno.descripcion }}
+                            </span>
+                        </div>
+                    </div>
+                </ng-template>
+            </p-picklist>
+        </div>
+    </div>
+</div>
+<div class="w-12 p-3 flex align-items-center justify-content-center">
+    <div class="formgrid grid">
+        <div class="field col-12 md:col-6">
+            <p-button label="Guardar" 
+                    pTooltip="Guardar" 
+                    [outlined]="true" 
+                    severity="secondary" 
+                    (onClick)="guardarListas();"/>
+        </div>
+        <div class="field col-12 md:col-6">
+            <p-button label="Cancelar" severity="secondary" (onClick)="cerrar()" />
+        </div>
+    </div>
+</div>

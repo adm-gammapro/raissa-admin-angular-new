@@ -23,6 +23,8 @@ import { PerfilComponent } from './modules/private/administrativo/perfil/perfil.
 import { FormPerfilComponent } from './modules/private/administrativo/perfil/formulario-perfil/form-perfil.component';
 import { ClienteAplicacionEntornoComponent } from './modules/private/administrativo/cliente/cliente-aplicacion-entorno/cliente-aplicacion-entorno.component';
 import { FormClienteAplicacionEntornoComponent } from './modules/private/administrativo/cliente/cliente-aplicacion-entorno/formulario-cliente-aplicacion-entorno/form-cliente-aplicacion-entorno.component';
+import { UsuarioClienteComponent } from './modules/private/administrativo/usuario/usuario-cliente/usuario-cliente.component';
+import { FormUsuarioClienteComponent } from './modules/private/administrativo/usuario/usuario-cliente/formulario-usuario-cliente/form-usuario-cliente.component';
 
 export const routes: Routes = [
     { path: '', component: ContentComponent },
@@ -58,6 +60,8 @@ export const routes: Routes = [
     { path: 'usuario', component: UsuarioComponent },
     { path: 'usuario/:pagina/:cantReg/:estadoSearch/:usernameSearch', component: UsuarioComponent },
     { path: 'form-usuario', component: FormUsuarioComponent },
+    { path: 'usuario-cliente/:codigoUsuario', component: UsuarioClienteComponent },
+    { path: 'form-usuario-cliente', component: FormUsuarioClienteComponent },
 
     { path: 'cliente', component: ClienteComponent },
     { path: 'cliente/:pagina/:cantReg/:estadoSearch/:razonSocialSearch', component: ClienteComponent },

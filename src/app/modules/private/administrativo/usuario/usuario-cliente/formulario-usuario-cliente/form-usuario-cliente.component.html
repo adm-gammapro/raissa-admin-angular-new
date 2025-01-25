@@ -1,0 +1,80 @@
+<app-header></app-header>
+<p-toast />
+<p-confirmDialog/>
+<form [formGroup]="usuarioClienteForm">
+    <p-panel>
+        <div class="card flex justify-center">
+            <p-breadcrumb class="max-w-full" [model]="items" [home]="home" />
+        </div>
+
+
+
+        <div class="flex bg-gray-100">
+
+            <div class="w-full flex align-items-center justify-content-center">
+                <div class="formgrid grid w-full">
+                    <div>
+                        <input type="hidden" formControlName="codigo" id="codigo">
+                    </div>
+                    <div class="field col-12 md:col-3"></div>
+                    <div class="field col-12 md:col-3">
+                        <label for="codigoCliente" class="pl-1">Cliente
+                            <span *ngIf="isFieldRequired('codigoCliente')" style="color: red;">*</span>
+                        </label>
+                        <p-select formControlName="codigoCliente" 
+                                inputId="codigoCliente" 
+                                [options]="clientes" 
+                                optionLabel="razonSocial"
+                                optionValue="codigo" 
+                                placeholder="Selecciona cliente" 
+                                [ngClass]="(usuarioClienteForm.get('codigoCliente')?.invalid && (usuarioClienteForm.get('codigoCliente')?.touched || usuarioClienteForm.get('codigoCliente')?.dirty)) ? 'ng-invalid ng-dirty w-full' : 'w-full'" />
+                        <div *ngIf="usuarioClienteForm.get('codigoCliente')?.errors?.['required'] && usuarioClienteForm.get('codigoCliente')?.touched" class="p-error">
+                            <p-message severity="error" variant="simple" size="small">El campo es requerido</p-message>
+                        </div>
+                    </div>
+
+                    <div class="field col-12 md:col-3">
+                        <label for="codigoPerfil" class="pl-1">Perfil
+                            <span *ngIf="isFieldRequired('codigoPerfil')" style="color: red;">*</span>
+                        </label>
+                        <p-select formControlName="codigoPerfil" 
+                                inputId="codigoPerfil" 
+                                [options]="perfiles" 
+                                optionLabel="descripcion"
+                                optionValue="codigo" 
+                                placeholder="Selecciona perfil" 
+                                [ngClass]="(usuarioClienteForm.get('codigoPerfil')?.invalid && (usuarioClienteForm.get('codigoPerfil')?.touched || usuarioClienteForm.get('codigoPerfil')?.dirty)) ? 'ng-invalid ng-dirty w-full' : 'w-full'" />
+                        <div *ngIf="usuarioClienteForm.get('codigoPerfil')?.errors?.['required'] && usuarioClienteForm.get('codigoPerfil')?.touched" class="p-error">
+                            <p-message severity="error" variant="simple" size="small">El campo es requerido</p-message>
+                        </div>
+                    </div>
+                    
+                    <div class="field col-12 md:col-3">
+                        
+                    </div>
+                    <div class="field col-12 md:col-5"></div>
+                    <div class="field col-12 md:col-1">
+                        <p-button label="Guardar" 
+                                pTooltip="Guardar" 
+                                variant="outlined"
+                                severity="info" 
+                                (onClick)="guardar();"
+                                [styleClass]="'w-full'"/>
+                    </div>
+                    <div class="field col-12 md:col-1">
+                        <p-button label="Volver" 
+                                pTooltip="Volver" 
+                                variant="outlined" 
+                                severity="contrast" 
+                                (onClick)="navigateToFormUsuarioCliente()"
+                                [styleClass]="'w-full'"/>
+                    </div>
+                    <div class="field col-12 md:col-5"></div>
+                </div>
+            </div>
+
+        </div>
+    </p-panel>
+
+    
+</form>

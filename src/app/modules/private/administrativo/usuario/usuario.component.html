@@ -99,6 +99,28 @@
                                 <td>{{ usuario.telefono }}</td>
                                 <td>{{usuario.estadoRegistro | estadoRegistroLabel }}</td>
                                 <td style="text-align: center;">
+                                    <p-button icon="pi pi-sitemap" 
+                                            [rounded]="true" 
+                                            [text]="true" 
+                                            type="button" 
+                                            pRipple
+                                            severity="secondary"
+                                            pTooltip="Vincular Perfiles"
+                                            tooltipPosition="top" 
+                                            [disabled]="esBotonDeshabilitado(usuario)"
+                                            (onClick)="mostrarModal(usuario.id)"/>
+
+                                    <p-button icon="pi pi-building" 
+                                            [rounded]="true" 
+                                            [text]="true" 
+                                            type="button" 
+                                            pRipple
+                                            severity="secondary"
+                                            pTooltip="Vincular Clientes"
+                                            tooltipPosition="top" 
+                                            [disabled]="esBotonDeshabilitado(usuario)"
+                                            (onClick)="mostrarListaUsuarioClientePerfil(usuario.id)"/>
+
                                     <p-button icon="pi pi-file-edit" 
                                             [rounded]="true" 
                                             [text]="true" 
@@ -129,3 +151,9 @@
             <app-paginator *ngIf="paginator" [paginatorInput] = "paginator" (paginatorOutput)="cambioPagina($event)"></app-paginator>
         </p-panel>
     </form>
+
+    <p-dialog [modal]="true" [(visible)]="mostrarUsuarioPerfil" [style]="{ width: '50rem'}">
+        <app-usuario-perfil (cerrarModal)="cerrarModal()"></app-usuario-perfil>
+        <div class="flex justify-content-end gap-2">
+        </div>
+    </p-dialog>

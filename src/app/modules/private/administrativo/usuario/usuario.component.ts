@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -14,21 +14,25 @@ import { Paginator } from '../../../../apis/model/module/private/commons/respons
 import { MessagesService } from '../../../../service/commons/messages.service';
 import { UsuarioService } from '../../../../service/modules/private/administrativo/usuario/usuario.service';
 import { EstadoRegistroEnum } from '../../../../apis/model/enums/estado-registro';
+import { UsuarioPerfilComponent } from './usuario-perfil/usuario-perfil.component';
 
 @Component({
   selector: 'app-usuario',
   imports: [FormsModule,
-                  ReactiveFormsModule,
-                  CommonModule,
-                  ...PRIME_NG_MODULES,
-                  PaginatorComponent,
-                  HeaderComponent,
-                  EstadoRegistroLabelPipe],
+    ReactiveFormsModule,
+    CommonModule,
+    ...PRIME_NG_MODULES,
+    PaginatorComponent,
+    HeaderComponent,
+    EstadoRegistroLabelPipe, 
+    UsuarioPerfilComponent],
         providers: [ConfirmationService, MessageService],
   templateUrl: './usuario.component.html',
   styleUrl: './usuario.component.scss'
 })
 export class UsuarioComponent implements OnInit {
+  @ViewChild(UsuarioPerfilComponent) usuarioPerfilComponent!: UsuarioPerfilComponent;
+  protected mostrarUsuarioPerfil = false;
   items: MenuItem[] | undefined;
   home: MenuItem | undefined;
 
@@ -157,6 +161,20 @@ export class UsuarioComponent implements OnInit {
     this.router.navigateByUrl('/content', { skipLocationChange: true }).then(() => {
       this.router.navigate(['/usuario']);
     });
+  }
+
+  mostrarModal(codigoUsuario: number): void {
+    this.usuarioPerfilComponent.cargarModelo(codigoUsuario);
+    this.mostrarUsuarioPerfil = true; // Mostrar el componente hijo (modal)
+  }
+
+  cerrarModal(): void {
+    this.mostrarUsuarioPerfil = false; // Cerrar el componente hijo
+    this.loadMessages();
+  }
+
+  mostrarListaUsuarioClientePerfil(codigoUsuario: number) {
+    this.router.navigate(['/usuario-cliente', codigoUsuario]);
   }
 
   private loadUsuarios(): void {
