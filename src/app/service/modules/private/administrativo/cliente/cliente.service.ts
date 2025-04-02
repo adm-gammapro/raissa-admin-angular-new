@@ -20,6 +20,9 @@ import { ClienteAplicacionEntornoServicioSearch } from '../../../../../apis/mode
 import { ClienteAplicacionEntornoServicioResponse } from '../../../../../apis/model/module/private/administrativo/cliente/response/cliente-aplicacion-entorno-servicio-response';
 import { ClienteAplicacionEntornoServicioRequest } from '../../../../../apis/model/module/private/administrativo/cliente/request/cliente-aplicacion-entorno-servicio-request';
 import { EntornoResponse } from '../../../../../apis/model/module/private/operativo/entorno/response/entorno-response';
+import { ClienteDatasourceSearch } from '../../../../../apis/model/module/private/administrativo/cliente/request/cliente-datasource-search';
+import { ClienteDatasourceResponse } from '../../../../../apis/model/module/private/administrativo/cliente/response/cliente-datasource-response';
+import { ClienteDatasourceRequest } from '../../../../../apis/model/module/private/administrativo/cliente/request/cliente-datasource-request';
 
 @Injectable({
   providedIn: 'root'
@@ -30,6 +33,7 @@ export class ClienteService {
   private readonly urlClienteProveedor: string = environment.url.base + '/cliente-proveedor';
   private readonly urlClienteAplicacionEntorno: string = environment.url.base + '/cliente-aplicacion-entorno';
   private readonly urlClienteAplicacionEntornoServicio: string = environment.url.base + '/cliente-aplicacion-entorno-servicio';
+  private readonly urlClienteDataSource: string = environment.url.base + '/cliente-datasource';
 
   constructor(private readonly http: HttpClient,
     private readonly authService: AuthService) { }
@@ -325,6 +329,114 @@ export class ClienteService {
     ].filter(Boolean).join('&');
 
     const url = `${this.url}/get-cliente-vinculado?${params}`;
+
+    return this.http.get(url).pipe(
+      map((response: any) => {
+        return response;
+      }),
+      catchError(e => {
+        this.authService.isNoAutorizado(e);
+        return throwError(() => e);
+      })
+    );
+  }
+
+  getClienteDatasourcesPage(page: number,
+    codigoCliente: number,
+    estadoRegistro: string | undefined,
+    cantReg: number): Observable<any> {
+
+    let clienteDatasourceSearch: ClienteDatasourceSearch = {
+      codigoCliente: codigoCliente,
+      estadoRegistro: estadoRegistro ?? ""
+    };
+
+    const direction: 'ASC' | 'DESC' = 'ASC';
+    const pageable = {
+      page: page,
+      size: cantReg,
+      sort: {
+        property: "codigo",
+        direction: direction
+      }
+    };
+
+    const url = `${this.urlClienteDataSource}/list-page-cliente-datasource`;
+
+    return this.http.post(url, clienteDatasourceSearch, { params: buildPageableParams(pageable) }).pipe(
+      map((response: any) => response),
+      catchError(e => {
+        this.authService.isNoAutorizado(e);
+        return throwError(() => e);
+      })
+    );
+  }
+
+  createClienteDatasource(clienteDatasource: ClienteDatasourceRequest): Observable<ClienteDatasourceResponse> {
+
+    const url = `${this.urlClienteDataSource}/create-cliente-datasource`;
+
+    return this.http.put<any>(url, clienteDatasource).pipe(
+      map((response: any) => response as ClienteDatasourceResponse),
+      catchError(e => {
+        this.authService.isNoAutorizado(e);
+        return throwError(() => e);
+      })
+    );
+  }
+
+  updateClienteDatasource(clienteDatasource: ClienteDatasourceRequest): Observable<ClienteDatasourceResponse> {
+
+    const url = `${this.urlClienteDataSource}/update-cliente-datasource`;
+
+    return this.http.put<any>(url, clienteDatasource).pipe(
+      map((response: any) => response as ClienteDatasourceResponse),
+      catchError(e => {
+        this.authService.isNoAutorizado(e);
+        return throwError(() => e);
+      })
+    );
+  }
+
+  eliminarClienteDatasource(codigo: number): Observable<ClienteDatasourceResponse> {
+
+    let clienteDatasource: ClienteDatasourceRequest = new ClienteDatasourceRequest();
+    clienteDatasource.codigo = codigo;
+
+    const url = `${this.urlClienteDataSource}/delete-cliente-datasource`;
+
+    return this.http.post<any>(url, clienteDatasource).pipe(
+      catchError(e => {
+        this.authService.isNoAutorizado(e);
+        return throwError(() => e);
+      })
+    );
+  }
+
+  getClienteDatasource(codigo: number | null): Observable<ClienteDatasourceResponse> {
+    const params = [
+      `codigoClienteDataSource=${codigo}`,
+    ].filter(Boolean).join('&');
+
+    const url = `${this.urlClienteDataSource}/get-cliente-datasource?${params}`;
+
+    return this.http.get(url).pipe(
+      map((response: any) => {
+        return response;
+      }),
+      catchError(e => {
+        this.authService.isNoAutorizado(e);
+        return throwError(() => e);
+      })
+    );
+  }
+
+  validarClienteDatasource(codigoCliente: number | null): Observable<number> {
+    const params = [
+      `codigoCliente=${codigoCliente}`,
+    ].filter(Boolean).join('&');
+
+    const url = `${this.urlClienteDataSource}/validar-cliente-datasource?${params}`;
 
     return this.http.get(url).pipe(
       map((response: any) => {

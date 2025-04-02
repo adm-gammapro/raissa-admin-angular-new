@@ -193,6 +193,10 @@ export class ClienteComponent implements OnInit {
     this.loadMessages();
   }
 
+  mostrarClienteDatasource(codigoCliente: number) {
+    this.router.navigate(['/cliente-datasource', codigoCliente]);
+  }
+
   private loadClientes(): void {
     this.clienteService
       .getClientesPage(this.paginator.numeroPagina, this.estadoSearch, this.razonSocialSearch, this.paginator.cantidadRegistros)

@@ -1,0 +1,61 @@
+<app-header></app-header>
+<p-toast />
+<p-confirmDialog/>
+<form [formGroup]="clienteDatasourceForm">
+    <p-panel>
+        <div class="card flex justify-center">
+            <p-breadcrumb class="max-w-full" [model]="items" [home]="home" />
+        </div>
+
+        <div class="flex bg-gray-100">
+
+            <div class="w-full flex align-items-center justify-content-center">
+                <div class="formgrid grid w-full">
+                    <div>
+                        <input type="hidden" formControlName="codigo" id="codigo">
+                        <input type="hidden" formControlName="codigoCliente" id="codigoCliente">
+                    </div>
+                    <div class="field col-12 md:col-5"></div>
+                    <div class="field col-12 md:col-2">
+                        <label for="codigoDataSource" class="pl-1">Codigo DS
+                            <span *ngIf="isFieldRequired('codigoDataSource')" style="color: red;">*</span>
+                        </label>
+                        <input id="codigoDataSource" 
+                            type="text"
+                            pInputText
+                            maxlength="50"
+                            (input)="filterAlphanumeric($event)"
+                            formControlName="codigoDataSource"
+                            [ngClass]="(clienteDatasourceForm.get('codigoDataSource')?.invalid && (clienteDatasourceForm.get('codigoDataSource')?.touched || clienteDatasourceForm.get('codigoDataSource')?.dirty)) ? 'ng-invalid ng-dirty w-full' : 'w-full'">
+                        <div *ngIf="clienteDatasourceForm.get('codigoDataSource')?.errors?.['required'] && clienteDatasourceForm.get('codigoDataSource')?.touched" class="p-error">
+                            <p-message severity="error" variant="simple" size="small">El campo es requerido</p-message>
+                        </div>
+                        <div *ngIf="clienteDatasourceForm.get('codigoDataSource')?.errors?.['maxlength'] && clienteDatasourceForm.get('codigoDataSource')?.touched" class="p-error">
+                            <p-message severity="error" variant="simple" size="small">Ha excedido el número máximo de caracteres permitidos</p-message>
+                        </div>
+                    </div>
+                    <div class="field col-12 md:col-5"></div>
+                    
+                    <div class="field col-12 md:col-5"></div>
+                    <div class="field col-12 md:col-1">
+                        <p-button label="Guardar" 
+                                pTooltip="Guardar" 
+                                variant="outlined"
+                                severity="info" 
+                                (onClick)="guardar();"
+                                [styleClass]="'w-full'"/>
+                    </div>
+                    <div class="field col-12 md:col-1">
+                        <p-button label="Volver" 
+                                pTooltip="Volver" 
+                                variant="outlined" 
+                                severity="contrast" 
+                                (onClick)="navigateToFormClienteDatasource()"
+                                [styleClass]="'w-full'"/>
+                    </div>
+                    <div class="field col-12 md:col-5"></div>
+                </div>
+            </div>
+        </div>
+    </p-panel>
+</form>

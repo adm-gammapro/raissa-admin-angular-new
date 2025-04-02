@@ -25,6 +25,8 @@ import { ClienteAplicacionEntornoComponent } from './modules/private/administrat
 import { FormClienteAplicacionEntornoComponent } from './modules/private/administrativo/cliente/cliente-aplicacion-entorno/formulario-cliente-aplicacion-entorno/form-cliente-aplicacion-entorno.component';
 import { UsuarioClienteComponent } from './modules/private/administrativo/usuario/usuario-cliente/usuario-cliente.component';
 import { FormUsuarioClienteComponent } from './modules/private/administrativo/usuario/usuario-cliente/formulario-usuario-cliente/form-usuario-cliente.component';
+import { ClienteDatasourceComponent } from './modules/private/administrativo/cliente/cliente-datasource/cliente-datasource.component';
+import { FormClienteDatasourceComponent } from './modules/private/administrativo/cliente/cliente-datasource/formulario-cliente-datasource/form-cliente-datasource.component';
 
 export const routes: Routes = [
     { path: '', component: ContentComponent },
@@ -72,5 +74,9 @@ export const routes: Routes = [
     { path: 'form-servicio', component: FormServicioAplicacionComponent },
 
     { path: 'cliente-aplicacion-entorno/:codigoCliente', component: ClienteAplicacionEntornoComponent },
-    { path: 'form-cliente-aplicacion-entorno', component: FormClienteAplicacionEntornoComponent }
+    { path: 'form-cliente-aplicacion-entorno', component: FormClienteAplicacionEntornoComponent },
+
+    { path: 'cliente-datasource/:codigoCliente', component: ClienteDatasourceComponent },
+    { path: 'cliente-datasource/:pagina/:cantReg/:codigoCliente/:estadoSearch', component: ClienteDatasourceComponent },
+    { path: 'form-cliente-datasource', component: FormClienteDatasourceComponent }
 ];

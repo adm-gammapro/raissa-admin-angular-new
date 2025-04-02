@@ -87,6 +87,17 @@
                                 <td>{{cliente.tipoCliente.descripcion}}</td>
                                 <td>{{cliente.estadoRegistro | estadoRegistroLabel }}</td>
                                 <td style="text-align: center;">
+                                    <p-button icon="pi pi-database" 
+                                            [rounded]="true" 
+                                            [text]="true" 
+                                            type="button" 
+                                            pRipple
+                                            severity="secondary" 
+                                            pTooltip="Registrar datasource de cliente" 
+                                            tooltipPosition="top"
+                                            [disabled]="esBotonDeshabilitado(cliente)" 
+                                            (onClick)="mostrarClienteDatasource(cliente.codigo)" />
+
                                     <p-button icon="pi pi-arrow-right-arrow-left" 
                                             [rounded]="true" 
                                             [text]="true" 
