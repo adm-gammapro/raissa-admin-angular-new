@@ -11,7 +11,7 @@ import { PrimeNG } from 'primeng/config';
 export class AppComponent implements OnInit {
   title = 'raissa-admin-angular-new';
 
-  constructor(private primeng: PrimeNG
+  constructor(private readonly primeng: PrimeNG
   ) {
 
   }
@@ -41,3 +41,4 @@ export class AppComponent implements OnInit {
     });
   }
 }
+

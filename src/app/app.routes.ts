@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
-import { ContentWebComponent } from './modules/public/content-web/content-web.component';
 import { ContentComponent } from './modules/private/layout/content/content.component';
+import { ContentWebComponent } from './modules/public/content-web/content-web.component';
 import { AuthorizedComponent } from './config/authorized/authorized.component';
 import { LogoutComponent } from './modules/private/layout/logout/logout.component';
 import { EntornoComponent } from './modules/private/operativo/entorno/entorno.component';
@@ -9,22 +9,22 @@ import { AplicacionComponent } from './modules/private/operativo/aplicacion/apli
 import { FormAplicacionComponent } from './modules/private/operativo/aplicacion/formulario-aplicacion/form-aplicacion.component';
 import { ModuloComponent } from './modules/private/administrativo/modulo/modulo.component';
 import { FormModuloComponent } from './modules/private/administrativo/modulo/formulario-modulo/form-modulo.component';
-import { ProveedorComponent } from './modules/private/operativo/proveedor/proveedor.component';
-import { FormProveedorComponent } from './modules/private/operativo/proveedor/formulario-proveedor/form-proveedor.component';
+import { PerfilComponent } from './modules/private/administrativo/perfil/perfil.component';
+import { FormPerfilComponent } from './modules/private/administrativo/perfil/formulario-perfil/form-perfil.component';
 import { OpcionComponent } from './modules/private/administrativo/opcion/opcion.component';
 import { FormOpcionComponent } from './modules/private/administrativo/opcion/formulario-opcion/form-opcion.component';
+import { ProveedorComponent } from './modules/private/operativo/proveedor/proveedor.component';
+import { FormProveedorComponent } from './modules/private/operativo/proveedor/formulario-proveedor/form-proveedor.component';
 import { UsuarioComponent } from './modules/private/administrativo/usuario/usuario.component';
 import { FormUsuarioComponent } from './modules/private/administrativo/usuario/formulario-usuario/form-usuario.component';
+import { UsuarioClienteComponent } from './modules/private/administrativo/usuario/usuario-cliente/usuario-cliente.component';
+import { FormUsuarioClienteComponent } from './modules/private/administrativo/usuario/usuario-cliente/formulario-usuario-cliente/form-usuario-cliente.component';
 import { ClienteComponent } from './modules/private/administrativo/cliente/cliente.component';
 import { FormClienteComponent } from './modules/private/administrativo/cliente/formulario-cliente/form-cliente.component';
 import { ServicioAplicacionComponent } from './modules/private/operativo/servicio/servicio-aplicacion/servicio-aplicacion.component';
 import { FormServicioAplicacionComponent } from './modules/private/operativo/servicio/servicio-aplicacion/formulario-servicio-aplicacion/form-servicio-aplicacion.component';
-import { PerfilComponent } from './modules/private/administrativo/perfil/perfil.component';
-import { FormPerfilComponent } from './modules/private/administrativo/perfil/formulario-perfil/form-perfil.component';
 import { ClienteAplicacionEntornoComponent } from './modules/private/administrativo/cliente/cliente-aplicacion-entorno/cliente-aplicacion-entorno.component';
 import { FormClienteAplicacionEntornoComponent } from './modules/private/administrativo/cliente/cliente-aplicacion-entorno/formulario-cliente-aplicacion-entorno/form-cliente-aplicacion-entorno.component';
-import { UsuarioClienteComponent } from './modules/private/administrativo/usuario/usuario-cliente/usuario-cliente.component';
-import { FormUsuarioClienteComponent } from './modules/private/administrativo/usuario/usuario-cliente/formulario-usuario-cliente/form-usuario-cliente.component';
 import { ClienteDatasourceComponent } from './modules/private/administrativo/cliente/cliente-datasource/cliente-datasource.component';
 import { FormClienteDatasourceComponent } from './modules/private/administrativo/cliente/cliente-datasource/formulario-cliente-datasource/form-cliente-datasource.component';
 

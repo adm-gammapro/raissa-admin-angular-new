@@ -26,20 +26,18 @@
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/assets"
+              {
+                "glob": "**/*",
+                "input": "src/assets",
+                "output": "assets"
+              }
             ],
             "styles": [
               "src/styles.scss",
               "node_modules/primeicons/primeicons.css",
               "node_modules/primeflex/primeflex.css"
             ],
-            "scripts": [
-            ],
-            "server": "src/main.server.ts",
-            "outputMode": "server",
-            "ssr": {
-              "entry": "src/server.ts"
-            }
+            "scripts": []
           },
           "configurations": {
             "production": {
@@ -94,7 +92,7 @@
               "buildTarget": "raissa-admin-angular-new:build:development"
             },
             "local": {
-              "buildTarget": "raissa-angular-extranet:build:local"
+              "buildTarget": "raissa-admin-angular-new:build:local"
             }
           },
           "defaultConfiguration": "development"
@@ -127,6 +125,6 @@
     }
   },
   "cli": {
-    "analytics": "407a49cf-fede-442a-8753-ac7e59c96016"
+    "analytics": "a086f844-3d97-451e-b247-69cb01689a86"
   }
 }

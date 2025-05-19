@@ -20,8 +20,4 @@ export class ContentWebComponent {
   constructor(private readonly messagesService: MessagesService) {
 
   }
-
-  ngOnInit() {
-    //this.messages = this.messagesService.getMessages();
-  }
 }

@@ -12,13 +12,13 @@
                   icon="pi pi-sign-in"
                   [outlined]="true" 
                   severity="secondary" 
-                  (click)="onLogin()"
+                  (onClick)="onLogin()"
                   *ngIf="!isLogged"/>
         <p-button label="Cerrar sessión" 
                   icon="pi pi-sign-out" 
                   [outlined]="true" 
                   severity="secondary" 
-                  (click)="onLogout()"
+                  (onClick)="onLogout()"
                   *ngIf="isLogged"/>
     </div>
 </p-toolbar>

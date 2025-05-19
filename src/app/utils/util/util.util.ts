@@ -38,7 +38,7 @@ export class Util {
     myForm.get(input.id)?.setValue(input.value, { emitEvent: false });
   }
 
-  public static convertDateFormatyyyymmddToddmmyyyy(dateString: String): string {
+  public static convertDateFormatyyyymmddToddmmyyyy(dateString: string): string {
     if (!dateString) return '';
     const [year, month, day] = dateString.split('-');
     const formattedDate = `${day}/${month}/${year}`;

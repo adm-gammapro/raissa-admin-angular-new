@@ -106,21 +106,4 @@ export class ModuloService {
       })
     );
   }
-
-  /*getAllEntornos(): Observable<ModuloResponse[]> {
-    const headers = new HttpHeaders({
-    });
-
-    const url = `${this.urlEntorno}/list-all-entornos`;
-
-    return this.http.get(url, { headers: headers }).pipe(
-      map((response: any) => {
-        return response;
-      }),
-      catchError(e => {
-        this.authService.isNoAutorizado(e);
-        return throwError(() => e);
-      })
-    );
-  }*/
 }
