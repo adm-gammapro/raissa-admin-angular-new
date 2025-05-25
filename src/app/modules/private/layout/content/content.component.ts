@@ -3,7 +3,6 @@ import { HeaderComponent } from "../header/header.component";
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { PRIME_NG_MODULES } from '../../../../config/primeNg/primeng-global-imports';
-import { MenuComponent } from '../menu/menu.component';
 
 @Component({
   selector: 'app-content',
@@ -18,5 +17,5 @@ import { MenuComponent } from '../menu/menu.component';
   styleUrl: './content.component.scss'
 })
 export class ContentComponent {
-
+  
 }
